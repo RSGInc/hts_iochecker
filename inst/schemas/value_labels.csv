@@ -1,0 +1,4 @@
+column_name,data_type,required,coerce,tests,description
+label,character,TRUE,TRUE,valid_no_null,
+value,integer,TRUE,TRUE,valid_no_null,
+variable,character,TRUE,TRUE,valid_no_null,
