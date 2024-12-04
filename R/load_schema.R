@@ -19,16 +19,12 @@ load_schema = function(path) {
     schema = as.list(schema_t)
     for (var in names(schema)) {
         # Convert to list to allow for multiple tests
-        schema[[var]] = setNames(as.list(schema[[var]]), key_names)
+        schema[[var]] = as.list(schema[[var]])
+        names(schema[[var]]) = key_names
 
         # Parse the tests into a list if multiple
         schema[[var]][['tests']] = trimws(data.table::tstrsplit(schema[[var]][['tests']], "&"))
-    }
-
-    schema2 = lapply(schema_t, function(x) {
-        names(x) = key_names
-        return(x)
-    })    
+    } 
 
     return(schema)
 }

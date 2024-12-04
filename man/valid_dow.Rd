@@ -14,7 +14,7 @@ Validate DOW columns
 }
 \examples{
 {
-dt = data.table(x = c(1, 2, 3, 4, 5))
-valid_dow(dt, "x")
+x = c(1, 2, 3, 4, 5)
+valid_dow(x)
 }
 }

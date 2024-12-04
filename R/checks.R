@@ -6,8 +6,8 @@
 #' @export
 #' @examples
 #' {
-#' dt = data.table(x = c(1, 2, 3, 4, 5))
-#' valid_primary_key(dt, "x")
+#' x = c(1, 2, 3, 4, 5)
+#' valid_primary_key(x)
 #' }
 valid_primary_key = function(x) {
 
@@ -33,8 +33,8 @@ valid_primary_key = function(x) {
 #' @export
 #' @examples
 #' {
-#' dt = data.table(x = c(1, 2, 3, 4, 5))
-#' valid_weight(dt, "x")
+#' x = c(1, 2, 3, 4, 5)
+#' valid_numeric(x)
 #' }
 valid_numeric = function(x) {
 
@@ -52,14 +52,13 @@ valid_numeric = function(x) {
 }
 
 #' Validate binary columns
-#' @param dt data.table
-#' @param col Target column name
+#' @param x Column vector
 #' @return Logical
 #' @export
 #' @examples
 #' {
-#' dt = data.table(x = c(1, 2, 3, 4, 5))
-#' valid_binary(dt, "x")
+#' x = c(1, 2, 3, 4, 5)
+#' valid_binary(x)
 #' }
 valid_binary = function(x) {
 
@@ -79,14 +78,13 @@ valid_binary = function(x) {
 
 
 #' Validate binary or 99x-like columns
-#' @param dt data.table
-#' @param col Target column name
+#' @param x Column vector
 #' @return Logical
 #' @export
 #' @examples
 #' {
-#' dt = data.table(x = c(1, 2, 3, 4, 999))
-#' valid_binary(dt, "x")
+#' x = c(1, 2, 3, 4, 999)
+#' valid_binary(x)
 #' }
 valid_binary_or_99x = function(x) {
 
@@ -110,8 +108,8 @@ valid_binary_or_99x = function(x) {
 #' @export
 #' @examples
 #' {
-#' dt = data.table(x = c(1, 2, 3, 4, 5))
-#' valid_dow(dt, "x")
+#' x = c(1, 2, 3, 4, 5)
+#' valid_dow(x)
 #' }
 valid_dow = function(x) {
 
@@ -135,8 +133,8 @@ valid_dow = function(x) {
 #' @export
 #' @examples
 #' {
-#'  dt = data.table(x = c(1, 2, 3, 4, 5))
-#'  valid_no_null(dt, "x")
+#'  x = c(1, 2, 3, 4, 5)
+#'  valid_no_null(x)
 #' }
 valid_no_null = function(x) {
     checks = c(
@@ -157,11 +155,12 @@ valid_no_null = function(x) {
 #' @param col Target column name
 #' @param ... Additional keyword arguments, i.e., locals list with data.tables
 #' @return Logical
+#' @import data.table
 #' @export
 valid_no_null_in_region = function(dt, col, ...) {
 
     # Only check for households in the region
-    x = dt[home_in_region == 1, get(col)]
+    x = dt[get("home_in_region") == 1, get(col)]
 
     checks = c(
         !any(is.na(x)),
@@ -184,6 +183,7 @@ valid_no_null_in_region = function(dt, col, ...) {
 #' @param col Target column name
 #' @param ... Additional keyword arguments, i.e., locals list with data.tables
 #' @return Logical
+#' @import data.table
 #' @export
 valid_sample_home_bg = function(dt, col, ...) {
 
@@ -193,8 +193,8 @@ valid_sample_home_bg = function(dt, col, ...) {
     # Ensure that if there are any NULLs in sample_home_bg,
     # there are no NULLs in the other bg columns
     check = dt[
-        home_in_region == 1,
-        is.na(sample_home_bg) & rowSums(is.na(.SD)) > 0,
+        get("home_in_region") == 1,
+        is.na(get("sample_home_bg")) & rowSums(is.na(.SD)) > 0,
         .SDcols = bg_cols
     ]
 
@@ -212,8 +212,8 @@ valid_sample_home_bg = function(dt, col, ...) {
 #' @export
 #' @examples
 #' {
-#' dt = data.table(x = c(1, 2, 3, 4, 5))
-#' valid_gt_0(dt$x)
+#' x = c(1, 2, 3, 4, 5)
+#' valid_gt_0(x)
 #' }
 valid_gt_0 = function(x) {
 

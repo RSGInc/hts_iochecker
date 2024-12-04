@@ -1,8 +1,3 @@
-require(data.table)
-require(DBI)
-require(RPostgres)
-require(testthat)
-
 # Helper functions ===========================================================
 fetch_tables = function(
     table_names,
@@ -43,22 +38,8 @@ fetch_tables = function(
             "SELECT * FROM ", dbschema, ".", table_names[[table_name]]
         )
 
-        result = tryCatch({
-                DBI::dbGetQuery(con, query)
-            },
-            error = function(cond) {
-                warning(cond)
-                return(NA)
-            }
-            )
-
-        dt =  tryCatch({
-                data.table::setDT(result)
-            },
-                error = function(cond) {
-                return(NA)
-            }
-        )
+        result = DBI::dbGetQuery(con, query)
+        dt = data.table::setDT(result)
 
         saveRDS(dt, file.path(cache_dir, paste0(table_name, ".rds")))
 
@@ -71,7 +52,7 @@ fetch_tables = function(
 
 }
 
-# LOAD DATA ==================================================================
+# Set parameters =============================================================
 table_names = c(
     'household' = 'ex_hh',
     'person' = 'ex_person',
@@ -84,7 +65,10 @@ table_names = c(
 )
 dbschema = 'wave3'
 dbname = 'metcouncil'
-tables_list = fetch_tables(table_names, dbname, schema)
+
+
+# LOAD DATA ==================================================================
+tables_list = fetch_tables(table_names, dbname, dbschema)
 
 
 # Load table schema ----------------------------------------------------------
@@ -96,6 +80,7 @@ schemas_list = lapply(names(table_names), function(table_name) {
 names(schemas_list) = names(table_names)
 
 
+
 # PREPROCESSING THAT SHOULD HAPPEN IN UPSTREAM PIPELINE =======================
 # All this annoying business logic should be handled upstream
 
@@ -104,11 +89,11 @@ tables_list[['variable_list']] = tables_list[['variable_list']][
     !is.na(variable) & !is.na(description),
     .(variable, description)
 ]
-tables_list[['value_labels']] = tables_list[['value_labels']][!is.na(value) & !is.na(label), ]
+tables_list[['value_labels']] = tables_list[['value_labels']][!is.na(value) & !is.na(label)]
 
-
+stop()
 # Drop incompletes ----------------------------------------------------------
-tables_list[['household']] = tables_list[['household']][hh_is_complete_a == 1 & hh_is_complete_b, ]
+tables_list[['household']] = tables_list[['household']][hh_is_complete_a == 1 & hh_is_complete_b]
 
 complete_hh = tables_list[['household']][, hh_id]
 for (table in c('person', 'day', 'trip', 'linked_trip', 'tour')) {

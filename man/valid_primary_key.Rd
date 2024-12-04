@@ -17,7 +17,7 @@ Primary key check
 }
 \examples{
 {
-dt = data.table(x = c(1, 2, 3, 4, 5))
-valid_primary_key(dt, "x")
+x = c(1, 2, 3, 4, 5)
+valid_primary_key(x)
 }
 }

@@ -5,13 +5,14 @@
 #' @param col character, the column to validate
 #' @param func_str character, the name of the test function to run
 #' @param locals list, a list of local variables to pass to the test function
+#' @import methods
 #' @return logical
 #' @export
 validate_field = function(dt, col, func_str, locals) {
 
     # Run the test function
     if (is.na(func_str)) {
-        warning(str_glue("No test function found for {var}. Skipping."))
+        warning(paste0("No test function found for ", col, ". Skipping."))
         func = function(x) TRUE
     } else {
         # Get the test function and args

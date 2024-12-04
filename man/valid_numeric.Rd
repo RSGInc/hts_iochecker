@@ -17,7 +17,7 @@ Validate weight columns
 }
 \examples{
 {
-dt = data.table(x = c(1, 2, 3, 4, 5))
-valid_weight(dt, "x")
+x = c(1, 2, 3, 4, 5)
+valid_numeric(x)
 }
 }

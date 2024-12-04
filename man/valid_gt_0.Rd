@@ -17,7 +17,7 @@ Validate >0 columns
 }
 \examples{
 {
-dt = data.table(x = c(1, 2, 3, 4, 5))
-valid_gt_0(dt$x)
+x = c(1, 2, 3, 4, 5)
+valid_gt_0(x)
 }
 }

@@ -2,3 +2,4 @@
 ^renv\.lock$
 ^.lintr$
 ^.vscode$
+^test_cache$

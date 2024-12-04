@@ -7,9 +7,7 @@
 valid_binary(x)
 }
 \arguments{
-\item{dt}{data.table}
-
-\item{col}{Target column name}
+\item{x}{Column vector}
 }
 \value{
 Logical
@@ -19,7 +17,7 @@ Validate binary columns
 }
 \examples{
 {
-dt = data.table(x = c(1, 2, 3, 4, 5))
-valid_binary(dt, "x")
+x = c(1, 2, 3, 4, 5)
+valid_binary(x)
 }
 }

@@ -17,7 +17,7 @@ Validate no NULL columns
 }
 \examples{
 {
- dt = data.table(x = c(1, 2, 3, 4, 5))
- valid_no_null(dt, "x")
+ x = c(1, 2, 3, 4, 5)
+ valid_no_null(x)
 }
 }

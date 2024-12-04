@@ -52,7 +52,7 @@ vignettes/*.pdf
 .env
 
 # Ignore the cache
-test_cache
+/test_cache
 test_data
 tests/testthat/Rplots.pdf
 testthat-problems.rds
