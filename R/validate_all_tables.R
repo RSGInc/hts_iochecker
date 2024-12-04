@@ -44,8 +44,7 @@ validate_all_tables = function(
 
         valid_tables[[table_name]] = tryCatch(
             {
-                schema = schemas_list[[table_name]]
-                valid_dt = validate_table(table_name, tables_list, schema, trim)
+                valid_dt = validate_table(table_name, tables_list, schemas_list, trim)
                 message(">>> Validation passed for table: ", table_name)
                 valid_dt
             },
@@ -54,17 +53,18 @@ validate_all_tables = function(
                 return(FALSE)
             },
             error = function(e) {
-                message(">>> Validation failed for table: ", table_name)
+                message(">>> Validation failed for table: ", table_name, " ", e$message)
                 return(FALSE)
             }
         )
 
     }
 
-    all_pass = all(sapply(valid_tables, function(x) if (is.logical(x)) x else TRUE))
+    all_pass = sapply(valid_tables, function(x) if (is.logical(x)) x else TRUE)
+    fails = paste(names(all_pass)[!all_pass], collapse = ", ")
 
-    if (!all_pass) {
-        stop("Validation failed.")
+    if (!all(all_pass)) {
+        stop("Validation failed on tables: ", fails)
     } else {
         message("---- All tables passed validation! ----")
     }

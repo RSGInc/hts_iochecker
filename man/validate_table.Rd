@@ -4,14 +4,14 @@
 \alias{validate_table}
 \title{validate_table}
 \usage{
-validate_table(table_name, tables_list, schema, trim = FALSE)
+validate_table(table_name, tables_list, schemas_list, trim = FALSE)
 }
 \arguments{
 \item{table_name}{character, the name of the data.table to validate}
 
 \item{tables_list}{list, a named list of data.tables to validate}
 
-\item{schema}{list, a named list of schema to validate against}
+\item{schemas_list}{list, a named list of schema to validate against}
 
 \item{trim}{logical, whether to trim the columns to only those in the schema}
 }

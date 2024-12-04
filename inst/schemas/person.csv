@@ -1,10 +1,10 @@
 column_name,data_type,required,coerce,tests,description
 hh_id,character,TRUE,TRUE,valid_no_null,
 person_id,character,TRUE,TRUE,valid_primary_key,
-person_weight,integer,FALSE,FALSE,valid_numeric,
+person_weight,integer,FALSE,TRUE,valid_numeric,
 surveyable,integer,TRUE,TRUE,valid_binary,
 is_participant,integer,TRUE,TRUE,valid_binary,
-hh_is_complete,integer,TRUE,TRUE,valid_binary,
+hh_is_complete,integer,FALSE,TRUE,valid_binary,
 is_complete,integer,TRUE,TRUE,valid_binary_or_99x,
 student,integer,TRUE,TRUE,valid_no_null,
 relationship,integer,TRUE,TRUE,valid_no_null,

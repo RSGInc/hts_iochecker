@@ -16,11 +16,15 @@ validate_table_relation = function(tables_list, id_key = NULL) {
             "tour_id" = "tour"
         )
     }
+    max_col_name = max(nchar(id_key)) + 2*max(nchar(names(id_key)))
+
+    # Drop tables that are not in the list
+    id_key = id_key[id_key %in% names(tables_list)]
     
     for (table_name in names(tables_list)) {                    
         # Get ID columns in table
         dt = tables_list[[table_name]]
-        id_cols = intersect(names(dt), names(id_key))
+        id_cols = intersect(names(dt), names(id_key))      
 
         # Check for presence of parent record
         for (id in id_cols) {
@@ -31,8 +35,18 @@ validate_table_relation = function(tables_list, id_key = NULL) {
             }
 
             # Check if the ID is in the parent table
-            message("Checking that ", table_name, "$", id, " is in ", id_key[id])
-            all(dt[[id]] %in% tables_list[[id_key[id]]][[id]])
+            ws = max_col_name - nchar(paste0(table_name, "$", id, id_key[id]))
+            msg = paste0("Checking that all ",
+                paste0(table_name, "$", id), " are in ",
+                id_key[id],
+                strrep("-", ws)
+            )
+
+            if (all(dt[[id]] %in% tables_list[[id_key[id]]][[id]])) {
+                message(paste0(msg, "> OK"))
+            } else {
+                stop(msg, "> FAIL")
+            }
         }
     }
 

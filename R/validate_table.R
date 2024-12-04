@@ -1,33 +1,45 @@
+#' Report pass/fail status
+#' @title report_passfail
+#' @description Report the pass/fail status
+#' @param var character, the variable name
+#' @param func_str character, the name of the test function
+#' @param message character, the message to report
+#' @param max_len integer, the maximum length of the printed output
+#' @export
+report_passfail = function(var, func_str, message, max_len = 25) {
+    msg = paste(
+        paste0(var, strrep(" ", max_len - nchar(var))),
+        paste0(func_str, strrep(" ", max_len - nchar(func_str))),
+        message,
+        sep = " | "
+    )
+    message(msg)
+}
+
+
 #' Validate a data.table against a schema
 #' Schema
 #' @title validate_table
 #' @description Validate a data.table against a schema
 #' @param table_name character, the name of the data.table to validate
 #' @param tables_list list, a named list of data.tables to validate
-#' @param schema list, a named list of schema to validate against
+#' @param schemas_list list, a named list of schema to validate against
 #' @param trim logical, whether to trim the columns to only those in the schema
 #' @return data.table
 #' @export
-validate_table = function(table_name, tables_list, schema, trim = FALSE) {
+validate_table = function(table_name, tables_list, schemas_list, trim = FALSE) {
     
-    # Get max name length
-    max_var_len = max(nchar(names(schema)))
-    max_func_len = max(nchar(sapply(schema, function(x) x[['tests']])))
-
     # Copy the data.table to a working copy
     valid_dt = copy(tables_list[[table_name]])
+    schema = schemas_list[[table_name]]
 
-    # Internal function to report pass/fail
-    # Uses max_var_len and max_func_len from parent function scope
-    report_passfail = function(var, func_str, message) {
-        msg = paste(
-            paste0(var, strrep(" ", max_var_len - nchar(var))),
-            paste0(func_str, strrep(" ", max_func_len - nchar(func_str))),
-            message,
-            sep = " | "
+    # Get max name length
+    max_len = max(
+        c(
+            nchar(names(schema)),
+            nchar(sapply(schema, function(x) x[['tests']]))
         )
-        message(msg)
-    }
+    )
 
     # Loop through each variable in the schema
     valid_fields = list()
@@ -41,49 +53,38 @@ validate_table = function(table_name, tables_list, schema, trim = FALSE) {
 
         # Get the schema values
         field_schema = schema[[var]]
-        tests = field_schema[['tests']]
+        required = as.logical(field_schema[['required']])
+        tests_str = paste(field_schema[['tests']], collapse = ", ")
 
-        # For each test on field, run the test function
-        for (func_str in tests) {
-            required = as.logical(field_schema[['required']])
-            coerce = as.logical(field_schema[['coerce']])
-            data_type = field_schema[['data_type']]
-
-            if (length(col) == 0) {
-                valid_fields[[var]] = FALSE | !required
-                msg = if (required) {
-                    ">>> Required field not found in table!"
-                } else {
-                    "passed. Optional field not found in table."
-                }
-                report_passfail(var, func_str, msg)
-                next
+        if (length(col) == 0) {
+            valid_fields[[var]] = FALSE | !required
+            msg = if (required) {
+                "Required field not found in table!"
+            } else {
+                "passed. Optional field not found in table."
             }
-
-            # Run the test function and catch any errors
-            valid_fields[[var]] = tryCatch(
-                {
-                    # Coerce or check the data type
-                    if (coerce) {
-                        valid_dt[[col]] = as(valid_dt[[col]], data_type)
-                    } else {
-                        stopifnot(class(valid_dt[[col]]) == data_type)
-                    }
-                    test_results = validate_field(valid_dt, col, func_str, tables_list)
-                    msg = if (test_results) "passed." else ">>> failed validation function."
-                    report_passfail(var, func_str, msg)
-                    test_results
-                },
-                warning = function(w) {
-                    report_passfail(var, func_str, paste(">>>", w$message))
-                    return(FALSE)
-                },
-                error = function(e) {
-                    report_passfail(var, func_str, paste(">>>", e$message))
-                    return(FALSE)
-                }
-            )
+            report_passfail(var, tests_str, msg, max_len)
+            next
         }
+
+        # Run the test function and catch any errors
+        valid_fields[[var]] = tryCatch(
+            {
+                test_results = validate_field(valid_dt, col, field_schema, tables_list)
+                msg = if (test_results) "passed." else ">>> failed validation function."
+                report_passfail(var, tests_str, msg, max_len)
+                test_results
+            },
+            warning = function(w) {
+                report_passfail(var, tests_str, paste(">>>", w$message), max_len)
+                return(FALSE)
+            },
+            error = function(e) {
+                report_passfail(var, tests_str, paste(">>>", e$message), max_len)
+                return(FALSE)
+            }
+        )
+
     }
 
     # Check all outcomes

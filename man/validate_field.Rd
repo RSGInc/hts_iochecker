@@ -4,14 +4,14 @@
 \alias{validate_field}
 \title{validate_field}
 \usage{
-validate_field(dt, col, func_str, locals)
+validate_field(dt, col, field_schema, locals)
 }
 \arguments{
 \item{dt}{data.table, the data.table to validate}
 
 \item{col}{character, the column to validate}
 
-\item{func_str}{character, the name of the test function to run}
+\item{field_schema}{list, a list of schema values for the field}
 
 \item{locals}{list, a list of local variables to pass to the test function}
 }

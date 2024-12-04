@@ -28,3 +28,21 @@ load_schema = function(path) {
 
     return(schema)
 }
+
+
+#' Load RSG Default HTS Schema
+#' @title load_rsg_default_schema
+#' @description Load the default RSG schema for the HTS data set from this package.
+#' @return list
+#' @export
+#' @import data.table
+load_rsg_default_schema = function() {
+    schema_files = list.files(system.file('schemas', package = 'hts.iochecker'), full.names = TRUE)
+    schema_list = list()
+    for (schema_file in schema_files) {
+        schema = load_schema(schema_file)
+        schema_name = gsub('.csv', '', basename(schema_file))
+        schema_list[[schema_name]] = schema
+    }
+    return(schema_list)
+}

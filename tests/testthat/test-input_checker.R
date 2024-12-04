@@ -72,13 +72,7 @@ tables_list = fetch_tables(table_names, dbname, dbschema)
 
 
 # Load table schema ----------------------------------------------------------
-schemas_list = lapply(names(table_names), function(table_name) {
-    schema_path = system.file("schemas", paste0(table_name, ".csv"), package = "hts.iochecker")
-    schema_table = load_schema(schema_path)
-    return(schema_table)
-})
-names(schemas_list) = names(table_names)
-
+schemas_list = load_rsg_default_schema()
 
 
 # PREPROCESSING THAT SHOULD HAPPEN IN UPSTREAM PIPELINE =======================
@@ -91,7 +85,7 @@ tables_list[['variable_list']] = tables_list[['variable_list']][
 ]
 tables_list[['value_labels']] = tables_list[['value_labels']][!is.na(value) & !is.na(label)]
 
-stop()
+
 # Drop incompletes ----------------------------------------------------------
 tables_list[['household']] = tables_list[['household']][hh_is_complete_a == 1 & hh_is_complete_b]
 
@@ -121,11 +115,16 @@ tables_list[['day']][is.na(num_trips) & day_is_complete != 1, num_trips := 0]
 tables_list[['person']] = tables_list[['person']][person_is_complete_a == 1 & person_is_complete_b == 1, ]
 
 
-# Table relation checks -----------------------------------------------------
-validate_table_relation(tables_list)
+# Annoying renames ----------------------------------------------------------
+tables_list[['household']][, is_complete := ifelse(hh_is_complete_a & hh_is_complete_b, 1, 0)]
+tables_list[['household']][, income_followup := income_broad]
 
-# TODO: Add check to check that each person has a day for every DOW
+tables_list[['person']][, is_complete := ifelse(person_is_complete_a & person_is_complete_b, 1, 0)]
+tables_list[['day']][, is_complete := day_is_complete]
 
 
-# Validate tables ============================================================
-validated_tables = validate_all_tables(tables_list, schemas_list, trim = TRUE)
+# Table relation checks ======================================================
+testthat::expect_no_error(validate_table_relation(tables_list))
+
+# Validate all tables ========================================================
+testthat::expect_no_error(validate_all_tables(tables_list, schemas_list))
