@@ -18,7 +18,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    strategy:
+        matrix:
+          r-version: ['4.3.0', '4.4.1']
+  
     steps:
       - uses: actions/checkout@v4
       - name: Set up R ${{ matrix.r-version }}
