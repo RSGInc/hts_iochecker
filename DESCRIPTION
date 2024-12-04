@@ -14,5 +14,6 @@ Imports:
 Suggests: 
     testthat (>= 3.0.0),
     DBI,
-    RPostgres
+    RPostgres,
+    devtools
 Config/testthat/edition: 3
