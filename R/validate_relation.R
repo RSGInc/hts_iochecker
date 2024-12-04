@@ -1,7 +1,9 @@
 #' @title Validate table relations
-#' @description Validate table relations by recusively checking for the presence of key columns in other tables
+#' @description Validate table relations by recusively checking for the
+#'  presence of key columns in other tables
 #' @param tables_list A list of data.tables
-#' @param id_key A named vector of key ID columns and their respective table names
+#' @param id_key A named vector of key ID columns and their
+#'  respective table names
 #' @return TRUE if all table relations are valid
 #' @export
 validate_table_relation = function(tables_list, id_key = NULL) {
@@ -16,7 +18,7 @@ validate_table_relation = function(tables_list, id_key = NULL) {
             "tour_id" = "tour"
         )
     }
-    max_col_name = max(nchar(id_key)) + 2*max(nchar(names(id_key)))
+    max_col_name = max(nchar(id_key)) + 2 * max(nchar(names(id_key)))
 
     # Drop tables that are not in the list
     id_key = id_key[id_key %in% names(tables_list)]

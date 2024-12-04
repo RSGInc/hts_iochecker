@@ -112,7 +112,9 @@ tables_list[['day']][
 tables_list[['day']][is.na(num_trips) & day_is_complete != 1, num_trips := 0]
 
 # Drop incomplete persons ---------------------------------------------------
-tables_list[['person']] = tables_list[['person']][person_is_complete_a == 1 & person_is_complete_b == 1, ]
+tables_list[['person']] = tables_list[['person']][
+    person_is_complete_a == 1 & person_is_complete_b == 1
+]
 
 
 # Annoying renames ----------------------------------------------------------

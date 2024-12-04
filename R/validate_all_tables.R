@@ -4,7 +4,8 @@
 #' @param tables_list list, a named list of data tables to validate.
 #' @param schemas_list list, a named list of schemas to validate against.
 #' @param trim logical, whether to trim the columns to only those in the schema.
-#'   This functionality might be useful when loading and validating the data on the fly.
+#'   This functionality might be useful when loading and validating
+#'   the data on the fly.
 #' @return TRUE if all tables pass validation
 #' @export
 validate_all_tables = function(
@@ -44,7 +45,12 @@ validate_all_tables = function(
 
         valid_tables[[table_name]] = tryCatch(
             {
-                valid_dt = validate_table(table_name, tables_list, schemas_list, trim)
+                valid_dt = validate_table(
+                    table_name,
+                    tables_list,
+                    schemas_list,
+                    trim
+                    )
                 message(">>> Validation passed for table: ", table_name)
                 valid_dt
             },

@@ -23,7 +23,9 @@ load_schema = function(path) {
         names(schema[[var]]) = key_names
 
         # Parse the tests into a list if multiple
-        schema[[var]][['tests']] = trimws(data.table::tstrsplit(schema[[var]][['tests']], "&"))
+        schema[[var]][['tests']] = trimws(
+            data.table::tstrsplit(schema[[var]][['tests']], "&")
+        )
     } 
 
     return(schema)
@@ -32,12 +34,15 @@ load_schema = function(path) {
 
 #' Load RSG Default HTS Schema
 #' @title load_rsg_default_schema
-#' @description Load the default RSG schema for the HTS data set from this package.
+#' @description Load the default RSG schema from this package.
 #' @return list
 #' @export
 #' @import data.table
 load_rsg_default_schema = function() {
-    schema_files = list.files(system.file('schemas', package = 'hts.iochecker'), full.names = TRUE)
+    schema_files = list.files(
+        system.file('schemas', package = 'hts.iochecker'),
+        full.names = TRUE
+    )
     schema_list = list()
     for (schema_file in schema_files) {
         schema = load_schema(schema_file)
