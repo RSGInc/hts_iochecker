@@ -128,5 +128,21 @@ tables_list[['day']][, is_complete := day_is_complete]
 # Table relation checks ======================================================
 testthat::expect_no_error(validate_table_relation(tables_list))
 
+# Check invidual tables ======================================================
+for (table_name in names(tables_list)) {
+    message("Validating table: ", table_name)
+    testthat::expect_no_error(
+        validate_table(
+            dt = tables_list[[table_name]],
+            schema = schemas_list[[table_name]],
+            trim = TRUE
+        )
+    )
+}
+
 # Validate all tables ========================================================
 testthat::expect_no_error(validate_all_tables(tables_list, schemas_list))
+
+# TODO: Need to add tests for expected fails
+
+# TODO: Need to add tests for individual functions

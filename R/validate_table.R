@@ -21,17 +21,16 @@ report_passfail = function(var, func_str, message, max_len = 25) {
 #' Schema
 #' @title validate_table
 #' @description Validate a data.table against a schema
-#' @param table_name character, the name of the data.table to validate
-#' @param tables_list list, a named list of data.tables to validate
-#' @param schemas_list list, a named list of schema to validate against
+#' @param dt data.table, the data.table to validate
+#' @param schema list, a list of schema values for the table
 #' @param trim logical, whether to trim the columns to only those in the schema
+#' @param ... additional locals arguments to pass to the test functions, e.g. tables_list
 #' @return data.table
 #' @export
-validate_table = function(table_name, tables_list, schemas_list, trim = FALSE) {
+validate_table = function(dt, schema, trim = FALSE, ...) {
     
     # Copy the data.table to a working copy
-    valid_dt = copy(tables_list[[table_name]])
-    schema = schemas_list[[table_name]]
+    valid_dt = copy(dt)
 
     # Get max name length
     max_len = max(
@@ -43,11 +42,12 @@ validate_table = function(table_name, tables_list, schemas_list, trim = FALSE) {
 
     # Loop through each variable in the schema
     valid_fields = list()
+    keep_cols = c()
     for (var in names(schema)) {
         # Check if the variable exists in the data.table
         col = grep(
             paste0("^", var, "$"),
-            names(tables_list[[table_name]]),
+            names(valid_dt),
             value = TRUE
         )
 
@@ -66,11 +66,12 @@ validate_table = function(table_name, tables_list, schemas_list, trim = FALSE) {
             report_passfail(var, tests_str, msg, max_len)
             next
         }
+        keep_cols = c(keep_cols, col)
 
         # Run the test function and catch any errors
         valid_fields[[var]] = tryCatch(
             {
-                test_results = validate_field(valid_dt, col, field_schema, tables_list)
+                test_results = validate_field(valid_dt, col, field_schema, ...)
                 msg = if (test_results) "passed." else ">>> failed validation function."
                 report_passfail(var, tests_str, msg, max_len)
                 test_results
@@ -92,7 +93,7 @@ validate_table = function(table_name, tables_list, schemas_list, trim = FALSE) {
 
     # Trim columns if requested
     if (trim) {
-        valid_dt = valid_dt[, names(schema), with = FALSE]
+        valid_dt = valid_dt[, keep_cols, with = FALSE]
     }
 
     return(valid_dt)

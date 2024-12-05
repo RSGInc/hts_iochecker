@@ -33,9 +33,7 @@ validate_all_tables = function(
     valid_tables = list()
     for (table_name in names(tables_list)) {
 
-        message(
-            "---- Validating table: ", table_name, " ----"
-        )
+        message("---- Validating table: ", table_name, " ----")
 
         if (all(c('sf', 'data.frame') %in% class(tables_list[[table_name]]))) {
             valid_tables[[table_name]] = tables_list[[table_name]]
@@ -46,11 +44,13 @@ validate_all_tables = function(
         valid_tables[[table_name]] = tryCatch(
             {
                 valid_dt = validate_table(
-                    table_name,
-                    tables_list,
-                    schemas_list,
-                    trim
-                    )
+                    dt = tables_list[[table_name]],
+                    schema = schemas_list[[table_name]],
+                    trim = trim,
+                    # Pass locals to the test functions
+                    tables_list = tables_list,
+                    schemas_list = schemas_list
+                )
                 message(">>> Validation passed for table: ", table_name)
                 valid_dt
             },

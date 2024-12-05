@@ -61,4 +61,3 @@ docs
 # Don't ignore overrides. M ust come last because it overrides the ignore
 !/inst/**
 !/schemas/**
-.Rprofile

@@ -1,9 +1,9 @@
 Package: hts.iochecker
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: RSG's HTS table validator package.
+Version: 0.0.1.000
 Authors@R: 
     person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Description: This package validates the structure of a table against a given HTS schema. It is intended to standardize our data tables throughout our disparate workflows and pipelines.
 License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

@@ -4,11 +4,11 @@
 #' @param dt data.table, the data.table to validate
 #' @param col character, the column to validate
 #' @param field_schema list, a list of schema values for the field
-#' @param locals list, a list of local variables to pass to the test function
+#' @param ... additional locals arguments to pass to the test
 #' @import methods
 #' @return logical
 #' @export
-validate_field = function(dt, col, field_schema, locals) {
+validate_field = function(dt, col, field_schema, ...) {
 
     # Get the schema values
     required = as.logical(field_schema[['required']])
@@ -50,7 +50,7 @@ validate_field = function(dt, col, field_schema, locals) {
                 test_results = do.call(func, list(
                     dt = dt,
                     col = col,
-                    locals = locals
+                    ... # Pass locals to the test function
                 ))
             }
 
