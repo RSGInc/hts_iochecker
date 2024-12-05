@@ -44,27 +44,27 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">validate_table</span><span class="op">(</span><span class="va">table_name</span>, <span class="va">tables_list</span>, <span class="va">schemas_list</span>, trim <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">validate_table</span><span class="op">(</span><span class="va">dt</span>, <span class="va">schema</span>, trim <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
 
 
-<dl><dt id="arg-table-name">table_name<a class="anchor" aria-label="anchor" href="#arg-table-name"></a></dt>
-<dd><p>character, the name of the data.table to validate</p></dd>
+<dl><dt id="arg-dt">dt<a class="anchor" aria-label="anchor" href="#arg-dt"></a></dt>
+<dd><p>data.table, the data.table to validate</p></dd>
 
 
-<dt id="arg-tables-list">tables_list<a class="anchor" aria-label="anchor" href="#arg-tables-list"></a></dt>
-<dd><p>list, a named list of data.tables to validate</p></dd>
-
-
-<dt id="arg-schemas-list">schemas_list<a class="anchor" aria-label="anchor" href="#arg-schemas-list"></a></dt>
-<dd><p>list, a named list of schema to validate against</p></dd>
+<dt id="arg-schema">schema<a class="anchor" aria-label="anchor" href="#arg-schema"></a></dt>
+<dd><p>list, a list of schema values for the table</p></dd>
 
 
 <dt id="arg-trim">trim<a class="anchor" aria-label="anchor" href="#arg-trim"></a></dt>
 <dd><p>logical, whether to trim the columns to only those in the schema</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>additional locals arguments to pass to the test functions, e.g. tables_list</p></dd>
 
 </dl></div>
     <div id="value">
