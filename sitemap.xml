@@ -1,0 +1,23 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/load_rsg_default_schema.html</loc></url>
+<url><loc>/reference/load_schema.html</loc></url>
+<url><loc>/reference/report_passfail.html</loc></url>
+<url><loc>/reference/valid_binary.html</loc></url>
+<url><loc>/reference/valid_binary_or_99x.html</loc></url>
+<url><loc>/reference/valid_dow.html</loc></url>
+<url><loc>/reference/valid_gt_0.html</loc></url>
+<url><loc>/reference/valid_no_null.html</loc></url>
+<url><loc>/reference/valid_no_null_in_region.html</loc></url>
+<url><loc>/reference/valid_numeric.html</loc></url>
+<url><loc>/reference/valid_primary_key.html</loc></url>
+<url><loc>/reference/valid_sample_home_bg.html</loc></url>
+<url><loc>/reference/validate_all_tables.html</loc></url>
+<url><loc>/reference/validate_field.html</loc></url>
+<url><loc>/reference/validate_table.html</loc></url>
+<url><loc>/reference/validate_table_relation.html</loc></url>
+</urlset>
+
