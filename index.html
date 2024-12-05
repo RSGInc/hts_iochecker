@@ -55,6 +55,7 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
+
 <div class="section level1">
 <div class="page-header"><h1 id="hts-table-inputoutput-checker">HTS Table Input/Output Checker<a class="anchor" aria-label="anchor" href="#hts-table-inputoutput-checker"></a>
 </h1></div>
@@ -63,7 +64,10 @@
 <div class="section level2">
 <h2 id="implemented-validations">Implemented validations<a class="anchor" aria-label="anchor" href="#implemented-validations"></a>
 </h2>
-<p>[x] Field schema - Checks that every field passes some tests, e.g., no_null or greater than 0. [x] Table relations - Checks that there are no orphaned records, e.g., every person has a household.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked>Field schema - Checks that every field passes some tests, e.g., no_null or greater than 0.</label></li>
+<li><label><input type="checkbox" checked>Table relations - Checks that there are no orphaned records, e.g., every person has a household.</label></li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -129,25 +133,156 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/validate_all_tables.html">validate_all_tables</a></span><span class="op">(</span><span class="va">table_list</span>, <span class="va">schema_list</span><span class="op">)</span></span></code></pre>
-<p>This package has a default schema list for all typical RSG HTS tables.</p>
-<pre><code><span><span class="co"># Default RSG schema coded into the IO Checker package</span></span>
+</div>
+</div>
+<div class="section level1">
+<h1 id="csv-schema-tables">CSV Schema tables<a class="anchor" aria-label="anchor" href="#csv-schema-tables"></a>
+</h1>
+<p>Schemas can be defined as a CSV table with the following fields: - column_name: The field name - data_type: The R data type, e.g., integer, numeric, character - required: TRUE/FALSE if the field is required, if FALSE it will validate if present - coerce: TRUE/FALSE coerce the data type if not in the defined data_type, if FALSE it will fail if not matching - tests: A function or list of functions - description [optional]: To provide some contextual information</p>
+<table class="table">
+<colgroup>
+<col width="26%">
+<col width="13%">
+<col width="11%">
+<col width="8%">
+<col width="24%">
+<col width="15%">
+</colgroup>
+<thead><tr class="header">
+<th>column_name</th>
+<th>data_type</th>
+<th>required</th>
+<th>coerce</th>
+<th>tests</th>
+<th>description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>hh_id</td>
+<td>character</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>valid_no_null</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>person_id</td>
+<td>character</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>valid_no_null</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>trip_id</td>
+<td>character</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>valid_primary_key</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>trip_weight</td>
+<td>numeric</td>
+<td>FALSE</td>
+<td>FALSE</td>
+<td>valid_no_null</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>linked_trip_id</td>
+<td>character</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>valid_no_null</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>day_id</td>
+<td>character</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>valid_no_null</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>travel_dow</td>
+<td>integer</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>valid_dow</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>distance_meters</td>
+<td>numeric</td>
+<td>FALSE</td>
+<td>TRUE</td>
+<td>valid_no_null</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>mode_type</td>
+<td>integer</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>valid_no_null</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>o_purpose_category</td>
+<td>integer</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>valid_no_null</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>d_purpose_category</td>
+<td>integer</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>valid_no_null</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>o_purpose</td>
+<td>integer</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>valid_no_null</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>d_purpose</td>
+<td>integer</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>valid_no_null</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>A CSV schema can then be loaded as an R list schema using</p>
+<pre><code><span><span class="va">schema</span> <span class="op">=</span> <span class="fu"><a href="reference/load_schema.html">load_schema</a></span><span class="op">(</span><span class="st">"path/to/schema.csv"</span><span class="op">)</span></span></code></pre>
+<p>This package contains several default RSG HTS schemas in: <a href="https://github.com/RSGInc/hts_iochecker/blob/main/inst/schemas" class="external-link uri">https://github.com/RSGInc/hts_iochecker/blob/main/inst/schemas</a> which can be loaded using</p>
+<pre><code><span><span class="va">schemas_list</span> <span class="op">=</span> <span class="fu">hts.iochecker</span><span class="fu">::</span><span class="fu"><a href="reference/load_rsg_default_schema.html">load_rsg_default_schema</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<p>Here is an example from HTS Weighting</p>
+<pre><code><span><span class="co"># Load schema</span></span>
 <span><span class="va">schemas_list</span> <span class="op">=</span> <span class="fu">hts.iochecker</span><span class="fu">::</span><span class="fu"><a href="reference/load_rsg_default_schema.html">load_rsg_default_schema</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Load tables to be validated ===============================================</span></span>
+<span><span class="co"># Load tables to be validated</span></span>
 <span><span class="va">table_names</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">schemas_list</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="st">"hts_table_map"</span>, <span class="va">settings</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">tables_list</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">table_names</span>, <span class="va">fetch_hts_table</span>, <span class="va">settings</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">tables_list</span><span class="op">)</span> <span class="op">=</span> <span class="va">table_names</span></span>
 <span></span>
-<span></span>
-<span><span class="co"># Validate tables ===========================================================</span></span>
-<span></span>
-<span><span class="co"># Validate table relation structure -----------------------------------------</span></span>
+<span><span class="co"># Validate table relation structure</span></span>
 <span><span class="fu">hts.iochecker</span><span class="fu">::</span><span class="fu"><a href="reference/validate_table_relation.html">validate_table_relation</a></span><span class="op">(</span><span class="va">schemas_list</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Validate tables schema ----------------------------------------------------</span></span>
+<span><span class="co"># Validate tables schema</span></span>
 <span><span class="fu">hts.iochecker</span><span class="fu">::</span><span class="fu"><a href="reference/validate_all_tables.html">validate_all_tables</a></span><span class="op">(</span><span class="va">tables_list</span>, <span class="va">schemas_list</span><span class="op">)</span></span></code></pre>
 </div>
-</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
