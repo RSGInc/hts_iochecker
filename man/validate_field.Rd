@@ -4,7 +4,7 @@
 \alias{validate_field}
 \title{validate_field}
 \usage{
-validate_field(dt, col, field_schema, locals)
+validate_field(dt, col, field_schema, ...)
 }
 \arguments{
 \item{dt}{data.table, the data.table to validate}
@@ -13,7 +13,7 @@ validate_field(dt, col, field_schema, locals)
 
 \item{field_schema}{list, a list of schema values for the field}
 
-\item{locals}{list, a list of local variables to pass to the test function}
+\item{...}{additional locals arguments to pass to the test}
 }
 \value{
 logical

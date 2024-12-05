@@ -12,7 +12,8 @@ validate_all_tables(tables_list, schemas_list, trim = FALSE)
 \item{schemas_list}{list, a named list of schemas to validate against.}
 
 \item{trim}{logical, whether to trim the columns to only those in the schema.
-This functionality might be useful when loading and validating the data on the fly.}
+This functionality might be useful when loading and validating
+the data on the fly.}
 }
 \value{
 TRUE if all tables pass validation

@@ -54,7 +54,22 @@ validate_table = function(dt, schema, trim = FALSE, ...) {
         # Get the schema values
         field_schema = schema[[var]]
         required = as.logical(field_schema[['required']])
-        tests_str = paste(field_schema[['tests']], collapse = ", ")
+
+        
+        if (!is.list(field_schema[['tests']])) {
+            field_schema[['tests']] = list(field_schema[['tests']])
+        }
+
+        # Collapse tests into string label
+        tests_str = paste(
+            lapply(field_schema[['tests']], function(test) {
+                if (is.function(test)) {
+                    test = "user defined function"
+                }
+                return(test)
+            }),
+            collapse = ", "
+        )
 
         if (length(col) == 0) {
             valid_fields[[var]] = FALSE | !required

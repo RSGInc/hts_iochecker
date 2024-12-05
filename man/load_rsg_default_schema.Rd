@@ -10,7 +10,7 @@ load_rsg_default_schema()
 list
 }
 \description{
-Load the default RSG schema for the HTS data set from this package.
+Load the default RSG schema from this package.
 }
 \details{
 Load RSG Default HTS Schema
