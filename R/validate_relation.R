@@ -18,11 +18,13 @@ validate_table_relation = function(tables_list, id_key = NULL) {
             "tour_id" = "tour"
         )
     }
-    max_col_name = max(nchar(id_key)) + 2 * max(nchar(names(id_key)))
-
     # Drop tables that are not in the list
     id_key = id_key[id_key %in% names(tables_list)]
-    
+
+    # Get the maximum column name width
+    max_col_name = max(nchar(id_key)) + 2 * max(nchar(names(id_key)))
+
+    fail = FALSE    
     for (table_name in names(tables_list)) {                    
         # Get ID columns in table
         dt = tables_list[[table_name]]
@@ -47,9 +49,14 @@ validate_table_relation = function(tables_list, id_key = NULL) {
             if (all(dt[[id]] %in% tables_list[[id_key[id]]][[id]])) {
                 message(paste0(msg, "> OK"))
             } else {
-                stop(msg, "> FAIL")
+                message(msg, "> FAIL")
+                fail = TRUE
             }
         }
+    }
+
+    if (fail) {
+        stop("Table relations are not valid")
     }
 
 }
