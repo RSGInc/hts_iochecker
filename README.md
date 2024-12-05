@@ -132,3 +132,9 @@ hts.iochecker::validate_table_relation(schemas_list)
 # Validate tables schema
 hts.iochecker::validate_all_tables(tables_list, schemas_list)
 ```
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/RSGInc/hts_iochecker/actions/workflows/rbuild.yml/badge.svg)](https://github.com/RSGInc/hts_iochecker/actions/workflows/rbuild.yaml)
+[![LintR](https://github.com/RSGInc/hts_iochecker/actions/workflows/lintr.yml/badge.svg)](https://github.com/RSGInc/hts_iochecker/actions/workflows/lintr.yaml)
+[![Pkgdown](https://github.com/RSGInc/hts_iochecker/actions/workflows/pkgdown.yml/badge.svg)](https://github.com/RSGInc/hts_iochecker/actions/workflows/pkgdown.yaml)
+<!-- badges: end -->
