@@ -20,6 +20,8 @@ If not using renv, the next easiest method is using `devtools`:
 devtools::install_github('RSGInc/hts_iochecker')
 ```
 
+NOTE: If you get an error like `Error: package 'hts.iochecker' is not available`, you may have a GITHUB_PAT conflict and need to run `Sys.unset('GITHUB_PAT')` first.
+
 ## Usage
 In R, a schema is a nested list, similar to a JSON, this is so it can store multiple tests per field. Here is an example:
 
@@ -132,3 +134,9 @@ hts.iochecker::validate_table_relation(schemas_list)
 # Validate tables schema
 hts.iochecker::validate_all_tables(tables_list, schemas_list)
 ```
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/RSGInc/hts_iochecker/actions/workflows/rbuild.yml/badge.svg)](https://github.com/RSGInc/hts_iochecker/actions/workflows/rbuild.yaml)
+[![LintR](https://github.com/RSGInc/hts_iochecker/actions/workflows/lintr.yml/badge.svg)](https://github.com/RSGInc/hts_iochecker/actions/workflows/lintr.yaml)
+[![Pkgdown](https://github.com/RSGInc/hts_iochecker/actions/workflows/pkgdown.yml/badge.svg)](https://github.com/RSGInc/hts_iochecker/actions/workflows/pkgdown.yaml)
+<!-- badges: end -->
