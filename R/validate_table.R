@@ -109,7 +109,6 @@ validate_table = function(dt, schema, trim = FALSE, ...) {
     # Trim columns if requested
     if (trim) {
         valid_dt = valid_dt[, keep_cols, with = FALSE]
+        return(valid_dt)
     }
-
-    return(valid_dt)
 }

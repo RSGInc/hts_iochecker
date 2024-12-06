@@ -75,5 +75,8 @@ validate_all_tables = function(
         message("---- All tables passed validation! ----")
     }
     
-    return(valid_tables)
+    if (trim) {
+        return(valid_tables)
+    }
+
 }
