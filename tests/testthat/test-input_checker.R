@@ -63,8 +63,8 @@ table_names = c(
     'person' = 'ex_person',
     'day' = 'ex_day',
     'trip' = 'ex_trip',
-    # 'linked_trip',
-    # 'tour',
+    'linked_trip' = 'ex_linked_trip',
+    'tour' = 'ex_tour',
     'variable_list' = 'ex_variable_list',
     'value_labels' = 'ex_value_labels'
 )
