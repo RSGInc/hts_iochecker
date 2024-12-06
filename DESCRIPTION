@@ -1,5 +1,5 @@
 Package: hts.iochecker
-Title: RSG's HTS table validator package.
+Title: RSG's HTS table validator package
 Version: 0.0.1.000
 Authors@R: 
     person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))

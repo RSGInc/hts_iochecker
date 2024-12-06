@@ -30,10 +30,14 @@ validate_field = function(dt, col, field_schema, ...) {
 
     # For each test on field, run the test function
     for (func_str in tests) {
-        
-        if (!is.function(func_str) && is.na(func_str)) {
-            warning(paste0("No test function found for ", col, ". Skipping."))
-            func = function(x) TRUE
+
+        # Check if empty string
+        if (!is.function(func_str) && length(func_str)  == 0) {
+            stop("No test function found for ", col)
+        }        
+
+        if (!is.function(func_str) && func_str == 'skip') {
+            test_results = TRUE
         } else if (length(col) == 0) {
             msg = if (required) {
                 "Required field not found in table!"
@@ -41,7 +45,7 @@ validate_field = function(dt, col, field_schema, ...) {
                 "passed. Optional field not found in table."
             }
             warning(msg)
-            func = function(x) FALSE | !required
+            test_results = FALSE | !required
         } else {
             test_results = eval_func(func_str, dt, col, ...)
         }
