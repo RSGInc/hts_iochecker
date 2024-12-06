@@ -1,3 +1,8 @@
+skip_if(
+    Sys.getenv('pops.user') == "",
+    "No database credentials found. Skipping tests."
+)
+
 # Helper functions ===========================================================
 fetch_tables = function(
     table_names,
