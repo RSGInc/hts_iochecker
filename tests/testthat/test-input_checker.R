@@ -38,7 +38,23 @@ fetch_tables = function(
             next
         }
 
+        # Check if table exists on DB
+        checktbl_query = sprintf(
+            "SELECT EXISTS (
+                SELECT 1
+                FROM   information_schema.tables
+                WHERE  table_schema = '%s'
+                AND    table_name = '%s'
+            );",
+            dbschema,
+            table_names[[table_name]]
+        )
+        if (!as.logical(DBI::dbGetQuery(con, checktbl_query))) {
+            message("Table not found: ", table_name, ". Skipping.")
+            next
+        }
 
+        # Read table
         query = paste0(
             "SELECT * FROM ", dbschema, ".", table_names[[table_name]]
         )
