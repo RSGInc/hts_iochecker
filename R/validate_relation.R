@@ -4,15 +4,16 @@
 #' @param tables_list A list of data.tables
 #' @param id_key A named vector of key ID columns and their
 #'  respective table names
-#' @param allow_childless A character vector of tables that are allowed to 
-#'  have no child records.
-#'  E.g., c('days', 'trips') we allow persons with no days and households with no trips.
+#' @param allowed_childless A character vector of tables that are allowed to 
+#'  have no child records. 
+#'  A common entry might be c('day', 'trip', 'linked_trip', 'tour')
+#'  E.g., c('days', 'trips') we allow persons with no days and no trips.
 #' @return TRUE if all table relations are valid
 #' @export
 validate_table_relation = function(
     tables_list,
     id_key = NULL,
-    allow_childless = c('day', 'trip', 'linked_trip', 'tour')
+    allowed_childless = NULL
     ) {
 
     if (is.null(id_key)) {
@@ -46,7 +47,7 @@ validate_table_relation = function(
             fail = report_parent(fail, has_parent, table_name, id, id_key)
 
             # Skip children check?
-            if (table_name %in% allow_childless) next
+            if (table_name %in% allowed_childless) next
 
             # Check that every parent has a child
             has_children = tables_list[[id_key[id]]][[id]] %in% dt[[id]]
