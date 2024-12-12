@@ -29,9 +29,6 @@ validate_table_relation = function(
     # Drop tables that are not in the list
     id_key = id_key[id_key %in% names(tables_list)]
 
-    # Get the maximum column name width
-    max_col_name = 30 + max(nchar(id_key)) + 2 * max(nchar(names(id_key)))
-
     fail = FALSE
     for (table_name in names(tables_list)) {
         # Get ID columns in table
@@ -76,6 +73,9 @@ report_parent = function(fail, has_parent, table_name, id, id_key) {
     msg = paste(
         "Checking if", table_name, "in parent", id_key[id], "on", id
     )
+
+    # Get the maximum column name width for whitespace padding
+    max_col_name = 30 + max(nchar(id_key)) + 2 * max(nchar(names(id_key)))
     ws = max_col_name - nchar(msg)
     msg = paste(msg, strrep("-", ws))
 
@@ -102,6 +102,8 @@ report_children = function(fail, has_children, table_name, id, id_key) {
     msg = paste(
         "Checking if", id_key[id], "has children in", table_name, "on", id
     )
+    # Get the maximum column name width for whitespace padding
+    max_col_name = 30 + max(nchar(id_key)) + 2 * max(nchar(names(id_key)))
     ws = max_col_name - nchar(msg)
     msg = paste(msg, strrep("-", ws))
 
