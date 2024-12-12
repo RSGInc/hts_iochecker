@@ -46,7 +46,11 @@ presence of key columns in other tables</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">validate_table_relation</span><span class="op">(</span><span class="va">tables_list</span>, id_key <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">validate_table_relation</span><span class="op">(</span></span>
+<span>  <span class="va">tables_list</span>,</span>
+<span>  id_key <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  allow_childless <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"day"</span>, <span class="st">"trip"</span>, <span class="st">"linked_trip"</span>, <span class="st">"tour"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -60,6 +64,12 @@ presence of key columns in other tables</p>
 <dt id="arg-id-key">id_key<a class="anchor" aria-label="anchor" href="#arg-id-key"></a></dt>
 <dd><p>A named vector of key ID columns and their
 respective table names</p></dd>
+
+
+<dt id="arg-allow-childless">allow_childless<a class="anchor" aria-label="anchor" href="#arg-allow-childless"></a></dt>
+<dd><p>A character vector of tables that are allowed to
+have no child records.
+E.g., c('days', 'trips') we allow persons with no days and households with no trips.</p></dd>
 
 </dl></div>
     <div id="value">
