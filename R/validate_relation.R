@@ -52,7 +52,6 @@ validate_table_relation = function(
             # Check that every parent has a child
             has_children = tables_list[[id_key[id]]][[id]] %in% dt[[id]]
             fail = report_children(fail, has_children, table_name, id, id_key)
-            stopifnot(!fail)
         }
     }
 
