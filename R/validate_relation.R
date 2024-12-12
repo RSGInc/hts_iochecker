@@ -4,11 +4,16 @@
 #' @param tables_list A list of data.tables
 #' @param id_key A named vector of key ID columns and their
 #'  respective table names
-#' @param check_children logical, whether to check child records
-#'  (e.g., person has days as well as days have person)
+#' @param allow_childless A character vector of tables that are allowed to 
+#'  have no child records.
+#'  E.g., c('days', 'trips') we allow persons with no days and households with no trips.
 #' @return TRUE if all table relations are valid
 #' @export
-validate_table_relation = function(tables_list, id_key = NULL, check_children = TRUE) {
+validate_table_relation = function(
+    tables_list,
+    id_key = NULL,
+    allow_childless = c('day', 'trip', 'linked_trip', 'tour')
+    ) {
 
     if (is.null(id_key)) {
         id_key = c(
@@ -28,7 +33,7 @@ validate_table_relation = function(tables_list, id_key = NULL, check_children = 
     max_col_name = 30 + max(nchar(id_key)) + 2 * max(nchar(names(id_key)))
 
     fail = FALSE
-    for (table_name in names(tables_list)) {                    
+    for (table_name in names(tables_list)) {
         # Get ID columns in table
         dt = tables_list[[table_name]]
         id_cols = intersect(names(dt), names(id_key))      
@@ -44,11 +49,12 @@ validate_table_relation = function(tables_list, id_key = NULL, check_children = 
             fail = report_parent(fail, has_parent, table_name, id, id_key)
 
             # Skip children check?
-            if (!check_children) next           
+            if (table_name %in% allow_childless) next
 
             # Check that every parent has a child
             has_children = tables_list[[id_key[id]]][[id]] %in% dt[[id]]
             fail = report_children(fail, has_children, table_name, id, id_key)
+            stopifnot(!fail)
         }
     }
 
