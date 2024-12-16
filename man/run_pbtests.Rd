@@ -4,7 +4,7 @@
 \alias{run_pbtests}
 \title{Run pointblank tests}
 \usage{
-run_pbtests(valid_dt, pb_tests)
+run_pbtests(valid_dt, pb_tests, progress = FALSE)
 }
 \arguments{
 \item{valid_dt}{data.table, the data.table to validate}
