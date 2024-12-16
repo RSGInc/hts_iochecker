@@ -2,7 +2,6 @@
 #' Collate the pointblank tests from the schema
 #' @param schema list, a list of schema values for the table
 #' @return list
-#' @import pointblank
 #' @export
 collate_tests = function(schema) {
 
@@ -15,6 +14,7 @@ collate_tests = function(schema) {
         for (test in tests) {
             # Parse the test function arguments
             args_list = parse_test_args(test)
+
             # Remove the () from the test string
             test_str = sub("\\(.*\\)", "", test)
 
@@ -36,7 +36,7 @@ collate_tests = function(schema) {
                 pb_tests[[test]] = list(
                     fun = get(test_str, envir = asNamespace("pointblank")),
                     args = args_list,
-                    columns = c(pb_tests[[test_str]]$columns, var)
+                    columns = c(pb_tests[[test]]$columns, var)
                 )
                 # Drop the test from the custom tests schema, leaving only custom tests
                 custom_tests[[var]]$tests = setdiff(custom_tests[[var]]$tests, test)
@@ -82,12 +82,37 @@ parse_test_args = function(test_str) {
     return(args_list)
 }
 
+#' Parse regex column names
+#' @title parse_regex_cols
+#' @description Parse regex column names
+#' @param columns vector, the columns to validate
+#' @param dt_cols vector, the columns in the data.table
+#' @return vector
+#' @export
+parse_regex_cols = function(columns, dt_cols) {
+    # Parse regex column names
+    regexed_cols = c()
+    for (col in columns) {
+        regexed_cols = c(
+            regexed_cols,
+            grep(
+                paste0("^", col, "$"),
+                dt_cols,
+                value = TRUE
+            )
+        )
+    }
+
+    regexed_cols = intersect(regexed_cols, dt_cols)
+
+    return(regexed_cols)
+}
+
 
 #' Run pointblank tests
 #' @param valid_dt data.table, the data.table to validate
 #' @param pb_tests list, a list of pointblank tests
 #' @return agent
-#' @import pointblank
 #' @export
 run_pbtests = function(valid_dt, pb_tests) {
     if (length(pb_tests) > 0) {
@@ -96,12 +121,10 @@ run_pbtests = function(valid_dt, pb_tests) {
         # al = pointblank::action_levels(warn_at = 1)
         agent = pointblank::create_agent(valid_dt)
 
-        dt_cols = names(valid_dt)
-
         # Add the tests to the agent
         for (test in names(pb_tests)) {
             test_fn = pb_tests[[test]]$fun
-            columns = intersect(pb_tests[[test]]$columns, dt_cols)
+            columns = parse_regex_cols(pb_tests[[test]]$columns, names(valid_dt))
 
             if (length(columns) == 0) {
                 next
@@ -119,7 +142,7 @@ run_pbtests = function(valid_dt, pb_tests) {
         }
 
         # Run the tests
-        agent = pointblank::interrogate(agent, progress = FALSE)
+        agent = pointblank::interrogate(agent, progress = TRUE)
         message("==== Pointblank tests complete ====")
         return(agent)
     } else {
