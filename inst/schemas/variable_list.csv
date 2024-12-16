@@ -1,3 +1,3 @@
 column_name,data_type,required,coerce,tests,description
-variable,character,TRUE,TRUE,valid_no_null,
+variable,character,TRUE,TRUE,col_vals_not_null,
 description,character,TRUE,TRUE,skip,

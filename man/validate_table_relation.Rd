@@ -4,11 +4,7 @@
 \alias{validate_table_relation}
 \title{Validate table relations}
 \usage{
-validate_table_relation(
-  tables_list,
-  id_key = NULL,
-  allow_childless = c("day", "trip", "linked_trip", "tour")
-)
+validate_table_relation(tables_list, id_key = NULL, allowed_childless = NULL)
 }
 \arguments{
 \item{tables_list}{A list of data.tables}
@@ -16,9 +12,10 @@ validate_table_relation(
 \item{id_key}{A named vector of key ID columns and their
 respective table names}
 
-\item{allow_childless}{A character vector of tables that are allowed to
+\item{allowed_childless}{A character vector of tables that are allowed to
 have no child records.
-E.g., c('days', 'trips') we allow persons with no days and households with no trips.}
+A common entry might be c('day', 'trip', 'linked_trip', 'tour')
+E.g., c('days', 'trips') we allow persons with no days and no trips.}
 }
 \value{
 TRUE if all table relations are valid

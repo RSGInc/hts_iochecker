@@ -11,7 +11,7 @@
 validate_all_tables = function(
     tables_list,
     schemas_list,
-    trim = FALSE
+    report = FALSE
     ) {
 
     # Assert that table list is named
@@ -46,7 +46,7 @@ validate_all_tables = function(
                 valid_dt = validate_table(
                     dt = tables_list[[table_name]],
                     schema = schemas_list[[table_name]],
-                    trim = trim,
+                    report = report,
                     # Pass locals to the test functions
                     tables_list = tables_list,
                     schemas_list = schemas_list
@@ -73,10 +73,6 @@ validate_all_tables = function(
         stop("Validation failed on tables: ", fails)
     } else {
         message("---- All tables passed validation! ----")
-    }
-    
-    if (trim) {
-        return(valid_tables)
     }
 
 }

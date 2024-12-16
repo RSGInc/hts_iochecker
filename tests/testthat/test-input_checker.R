@@ -97,7 +97,10 @@ schemas_list = load_rsg_default_schema()
 
 
 # Table relation checks ======================================================
-testthat::expect_no_error(validate_table_relation(tables_list))
+allowed_childless = c('day', 'trip', 'linked_trip', 'tour')
+testthat::expect_no_error(
+    validate_table_relation(tables_list, allowed_childless = allowed_childless)
+)
 
 # Check invidual tables ======================================================
 for (table_name in names(tables_list)) {
@@ -106,7 +109,7 @@ for (table_name in names(tables_list)) {
         validate_table(
             dt = tables_list[[table_name]],
             schema = schemas_list[[table_name]],
-            trim = TRUE
+            report = FALSE
         )
     )
 }

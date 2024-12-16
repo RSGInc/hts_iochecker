@@ -92,21 +92,21 @@ Schemas can be defined as a CSV table with the following fields:
 - tests: A function or list of functions
 - description [optional]: To provide some contextual information
 
-|column_name       |data_type|required|coerce|tests            |description|
-|------------------|---------|--------|------|-----------------|-----------|
-|hh_id             |character|TRUE    |TRUE  |valid_no_null    |           |
-|person_id         |character|TRUE    |TRUE  |valid_no_null    |           |
-|trip_id           |character|TRUE    |TRUE  |valid_primary_key|           |
-|trip_weight       |numeric  |FALSE   |FALSE |valid_no_null    |           |
-|linked_trip_id    |character|TRUE    |TRUE  |valid_no_null    |           |
-|day_id            |character|TRUE    |TRUE  |valid_no_null    |           |
-|travel_dow        |integer  |TRUE    |TRUE  |valid_dow        |           |
-|distance_meters   |numeric  |FALSE   |TRUE  |valid_no_null    |           |
-|mode_type         |integer  |TRUE    |TRUE  |valid_no_null    |           |
-|o_purpose_category|integer  |TRUE    |TRUE  |valid_no_null    |           |
-|d_purpose_category|integer  |TRUE    |TRUE  |valid_no_null    |           |
-|o_purpose         |integer  |TRUE    |TRUE  |valid_no_null    |           |
-|d_purpose         |integer  |TRUE    |TRUE  |valid_no_null    |           |
+|column_name       |data_type|required|coerce|tests                     |description|
+|------------------|---------|--------|------|--------------------------|-----------|
+|hh_id             |character|TRUE    |TRUE  |col_vals_not_null         |           |
+|person_id         |character|TRUE    |TRUE  |col_vals_not_null         |           |
+|trip_id           |character|TRUE    |TRUE  |rows_distinct             |           |
+|trip_weight       |numeric  |FALSE   |FALSE |col_vals_not_null         |           |
+|linked_trip_id    |character|TRUE    |TRUE  |col_vals_not_null         |           |
+|day_id            |character|TRUE    |TRUE  |col_vals_not_null         |           |
+|travel_dow        |integer  |TRUE    |TRUE  |"col_vals_in_set(set=1:7)"|           |
+|distance_meters   |numeric  |FALSE   |TRUE  |col_vals_not_null         |           |
+|mode_type         |integer  |TRUE    |TRUE  |col_vals_not_null         |           |
+|o_purpose_category|integer  |TRUE    |TRUE  |col_vals_not_null         |           |
+|d_purpose_category|integer  |TRUE    |TRUE  |col_vals_not_null         |           |
+|o_purpose         |integer  |TRUE    |TRUE  |col_vals_not_null         |           |
+|d_purpose         |integer  |TRUE    |TRUE  |col_vals_not_null         |           |
 
 A CSV schema can then be loaded as an R list schema using 
 ```

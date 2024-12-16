@@ -23,27 +23,34 @@ report_passfail = function(var, func_str, message, max_len = 25) {
 #' @description Validate a data.table against a schema
 #' @param dt data.table, the data.table to validate
 #' @param schema list, a list of schema values for the table
-#' @param trim logical, whether to trim the columns to only those in the schema
+#' @param report logical, whether to report the results
 #' @param ... additional locals arguments to pass to the test functions, e.g. tables_list
 #' @return data.table
 #' @export
-validate_table = function(dt, schema, trim = FALSE, ...) {
+validate_table = function(dt, schema, report = TRUE, ...) {
     
     # Copy the data.table to a working copy
     valid_dt = copy(dt)
 
-    # Get max name length
+    # Collate pointblank tests
+    collated = collate_tests(schema)
+    pb_results = run_pbtests(valid_dt, pb_tests = collated$pb_tests)
+    custom_tests = collated$custom_tests
+
+    # Run custom tests
+    message("==== Running custom tests ====")
+    
+    # Get the maximum length of the variable names
     max_len = max(
         c(
-            nchar(names(schema)),
-            nchar(sapply(schema, function(x) x[['tests']]))
+            nchar(names(custom_tests)),
+            nchar(sapply(custom_tests, function(x) x[['tests']]))
         )
     )
-
     # Loop through each variable in the schema
     valid_fields = list()
     keep_cols = c()
-    for (var in names(schema)) {
+    for (var in names(custom_tests)) {
         # Check if the variable exists in the data.table
         col = grep(
             paste0("^", var, "$"),
@@ -52,7 +59,7 @@ validate_table = function(dt, schema, trim = FALSE, ...) {
         )
 
         # Get the schema values
-        field_schema = schema[[var]]
+        field_schema = custom_tests[[var]]
         required = as.logical(field_schema[['required']])
 
         
@@ -100,15 +107,18 @@ validate_table = function(dt, schema, trim = FALSE, ...) {
                 return(FALSE)
             }
         )
+    }
 
+    if (report) {
+        print(pb_results)
+    }
+    
+    if (!is.null(pb_results) && sum(pb_results$validation_set$n_failed) > 0) {
+        print(pb_results)
+        stop("Pointblank tests failed.")
     }
 
     # Check all outcomes
     stopifnot(all(unlist(valid_fields) == TRUE))
 
-    # Trim columns if requested
-    if (trim) {
-        valid_dt = valid_dt[, keep_cols, with = FALSE]
-        return(valid_dt)
-    }
 }
