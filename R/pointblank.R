@@ -11,7 +11,8 @@ collate_tests = function(schema) { # nolint: cyclocomp_linter.
     for (var in names(schema)) {
         tests = schema[[var]]$tests
 
-        if (!is.list(tests)) tests = list(tests)
+        if (is.function(tests)) next
+        if (!is.list(tests)) tests = as.list(tests)
 
         for (test in tests) {
 
