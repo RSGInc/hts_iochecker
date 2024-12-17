@@ -44,9 +44,12 @@ validate_table = function(dt, schema, report = TRUE, ...) {
     max_len = max(
         c(
             nchar(names(custom_tests)),
-            nchar(sapply(custom_tests, function(x) x[['tests']]))
+            nchar(sapply(custom_tests, function(x) {
+                ifelse(is.function(x[['tests']]), "user defined function", x[['tests']])
+            }))
         )
     )
+
     # Loop through each variable in the schema
     valid_fields = list()
     keep_cols = c()
@@ -61,7 +64,6 @@ validate_table = function(dt, schema, report = TRUE, ...) {
         # Get the schema values
         field_schema = custom_tests[[var]]
         required = as.logical(field_schema[['required']])
-
         
         if (!is.list(field_schema[['tests']])) {
             field_schema[['tests']] = list(field_schema[['tests']])

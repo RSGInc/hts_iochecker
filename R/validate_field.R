@@ -17,11 +17,10 @@ validate_field = function(dt, col, field_schema, ...) {
 
     # Coerce or check the data type
     if (coerce) {
-        dt[[col]] = as(dt[[col]], data_type)
+        dt[, (col) := lapply(.SD, function(x) as(x, data_type)), .SDcols = col]
     } else {
         stopifnot(class(dt[[col]]) == data_type)
     }
-
 
     # If tests is a function itself, pass as a list
     if (!is.list(tests)) {
@@ -78,9 +77,11 @@ eval_func = function(func_str, dt, col, ...) {
     
     if (length(args) == 1 && args == "x") {
         # If the function does not have args, assume simple vector input
-        test_results = func(dt[[col]])
+        test_results = all(dt[, lapply(.SD, func), .SDcols = col])
+        # test_results = func(dt[[col]])
     } else {
         # Otherwise, pass the locals list to the function
+        # dt[, lapply(.SD, do.call(func, list(...))), .SDcols = col]
         test_results = do.call(func, list(
             dt = dt,
             col = col,

@@ -3,7 +3,7 @@
 #' @param schema list, a list of schema values for the table
 #' @return list
 #' @export
-collate_tests = function(schema) {
+collate_tests = function(schema) { # nolint: cyclocomp_linter.
 
     # Collate pointblank tests into a list of tests and their columns
     pb_tests = list()
@@ -11,7 +11,12 @@ collate_tests = function(schema) {
     for (var in names(schema)) {
         tests = schema[[var]]$tests
 
+        if (!is.list(tests)) tests = list(tests)
+
         for (test in tests) {
+
+            if (is.function(test)) next
+
             # Parse the test function arguments
             args_list = parse_test_args(test)
 
@@ -142,7 +147,7 @@ run_pbtests = function(valid_dt, pb_tests) {
         }
 
         # Run the tests
-        agent = pointblank::interrogate(agent, progress = TRUE)
+        agent = pointblank::interrogate(agent, progress = FALSE)
         message("==== Pointblank tests complete ====")
         return(agent)
     } else {
