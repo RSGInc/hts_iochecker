@@ -4,12 +4,12 @@
 \alias{parse_regex_cols}
 \title{parse_regex_cols}
 \usage{
-parse_regex_cols(columns, valid_dt)
+parse_regex_cols(columns, dt_cols)
 }
 \arguments{
 \item{columns}{vector, the columns to validate}
 
-\item{valid_dt}{data.table, the data.table to validate}
+\item{dt_cols}{vector, the columns in the data.table}
 }
 \value{
 vector

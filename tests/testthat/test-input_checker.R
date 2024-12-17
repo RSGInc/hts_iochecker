@@ -1,3 +1,5 @@
+# testthat::test_dir("tests/testthat", filter = "input_checker")
+
 skip_if(
     Sys.getenv('pops.user') == "",
     "No database credentials found. Skipping tests."
@@ -82,7 +84,8 @@ table_names = c(
     'linked_trip' = 'ex_linked_trip',
     'tour' = 'ex_tour',
     'variable_list' = 'ex_variable_list',
-    'value_labels' = 'ex_value_labels'
+    'value_labels' = 'ex_value_labels',
+    'sample_plan' = 'sample_plan'
 )
 dbschema = 'combined_2023'
 dbname = 'sw_wash_hts'
