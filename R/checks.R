@@ -6,25 +6,24 @@
 #' @export
 #' @examples
 #' {
-#' x = c(1, 2, 3, 4, 5)
-#' valid_primary_key(x)
+#'   x <- c(1, 2, 3, 4, 5)
+#'   valid_primary_key(x)
 #' }
-valid_primary_key = function(x) {
+valid_primary_key <- function(x) {
+  checks <- c(
+    is.character(x),
+    length(unique(x)) == length(x),
+    !any(is.na(x)),
+    !any(trimws(x) == ""),
+    !any(x == "NA"),
+    !any(x == "NULL")
+  )
 
-    checks = c(
-        is.character(x),
-        length(unique(x)) == length(x),
-        !any(is.na(x)),
-        !any(trimws(x) == ""),
-        !any(x == "NA"),
-        !any(x == "NULL")
-    )
+  if (!all(checks)) {
+    return(FALSE)
+  }
 
-    if (!all(checks)) {
-        return(FALSE)
-    }
-
-    return(TRUE)
+  return(TRUE)
 }
 
 #' Validate weight columns
@@ -33,22 +32,21 @@ valid_primary_key = function(x) {
 #' @export
 #' @examples
 #' {
-#' x = c(1, 2, 3, 4, 5)
-#' valid_numeric(x)
+#'   x <- c(1, 2, 3, 4, 5)
+#'   valid_numeric(x)
 #' }
-valid_numeric = function(x) {
+valid_numeric <- function(x) {
+  checks <- c(
+    is.numeric(x),
+    !any(is.na(x)),
+    !any(trimws(x) == "")
+  )
 
-    checks = c(
-        is.numeric(x),
-        !any(is.na(x)),
-        !any(trimws(x) == "")
-    )
+  if (!all(checks)) {
+    return(FALSE)
+  }
 
-    if (!all(checks)) {
-        return(FALSE)
-    }
-
-    return(TRUE)
+  return(TRUE)
 }
 
 #' Validate binary columns
@@ -57,23 +55,22 @@ valid_numeric = function(x) {
 #' @export
 #' @examples
 #' {
-#' x = c(1, 2, 3, 4, 5)
-#' valid_binary(x)
+#'   x <- c(1, 2, 3, 4, 5)
+#'   valid_binary(x)
 #' }
-valid_binary = function(x) {
+valid_binary <- function(x) {
+  checks <- c(
+    is.numeric(x),
+    !any(is.na(x)),
+    !any(trimws(x) == ""),
+    all(x %in% c(0, 1))
+  )
 
-    checks = c(
-        is.numeric(x),
-        !any(is.na(x)),
-        !any(trimws(x) == ""),
-        all(x %in% c(0, 1))
-    )
+  if (!all(checks)) {
+    return(FALSE)
+  }
 
-    if (!all(checks)) {
-        return(FALSE)
-    }
-
-    return(TRUE)
+  return(TRUE)
 }
 
 
@@ -83,23 +80,22 @@ valid_binary = function(x) {
 #' @export
 #' @examples
 #' {
-#' x = c(1, 2, 3, 4, 999)
-#' valid_binary(x)
+#'   x <- c(1, 2, 3, 4, 999)
+#'   valid_binary(x)
 #' }
-valid_binary_or_99x = function(x) {
+valid_binary_or_99x <- function(x) {
+  checks <- c(
+    is.numeric(x),
+    !any(is.na(x)),
+    !any(trimws(x) == ""),
+    all(x %in% c(0, 1, 990:999))
+  )
 
-    checks = c(
-        is.numeric(x),
-        !any(is.na(x)),
-        !any(trimws(x) == ""),
-        all(x %in% c(0, 1, 990:999))
-    )
+  if (!all(checks)) {
+    return(FALSE)
+  }
 
-    if (!all(checks)) {
-        return(FALSE)
-    }
-
-    return(TRUE)
+  return(TRUE)
 }
 
 
@@ -108,23 +104,22 @@ valid_binary_or_99x = function(x) {
 #' @export
 #' @examples
 #' {
-#' x = c(1, 2, 3, 4, 5)
-#' valid_dow(x)
+#'   x <- c(1, 2, 3, 4, 5)
+#'   valid_dow(x)
 #' }
-valid_dow = function(x) {
+valid_dow <- function(x) {
+  checks <- c(
+    is.numeric(x),
+    !any(is.na(x)),
+    !any(trimws(x) == ""),
+    all(x %in% 1:7)
+  )
 
-    checks = c(
-        is.numeric(x),
-        !any(is.na(x)),
-        !any(trimws(x) == ""),
-        all(x %in% 1:7)
-    )
+  if (!all(checks)) {
+    return(FALSE)
+  }
 
-    if (!all(checks)) {
-        return(FALSE)
-    }
-
-    return(TRUE)
+  return(TRUE)
 }
 
 #' Validate no NULL columns
@@ -133,20 +128,20 @@ valid_dow = function(x) {
 #' @export
 #' @examples
 #' {
-#'  x = c(1, 2, 3, 4, 5)
-#'  valid_no_null(x)
+#'   x <- c(1, 2, 3, 4, 5)
+#'   valid_no_null(x)
 #' }
-valid_no_null = function(x) {
-    checks = c(
-        !any(is.na(x)),
-        !any(trimws(x) == "")
-    )
+valid_no_null <- function(x) {
+  checks <- c(
+    !any(is.na(x)),
+    !any(trimws(x) == "")
+  )
 
-    if (!all(checks)) {
-        return(FALSE)
-    }
+  if (!all(checks)) {
+    return(FALSE)
+  }
 
-    return(TRUE)
+  return(TRUE)
 }
 
 
@@ -157,21 +152,20 @@ valid_no_null = function(x) {
 #' @return Logical
 #' @import data.table
 #' @export
-valid_no_null_in_region = function(dt, col, ...) {
+valid_no_null_in_region <- function(dt, col, ...) {
+  # Only check for households in the region
+  x <- dt[get("home_in_region") == 1, get(col)]
 
-    # Only check for households in the region
-    x = dt[get("home_in_region") == 1, get(col)]
+  checks <- c(
+    !any(is.na(x)),
+    !any(trimws(x) == "")
+  )
 
-    checks = c(
-        !any(is.na(x)),
-        !any(trimws(x) == "")
-    )
+  if (!all(checks)) {
+    return(FALSE)
+  }
 
-    if (!all(checks)) {
-        return(FALSE)
-    }
-
-    return(TRUE)        
+  return(TRUE)
 }
 
 #' Validate no NULL bg columns
@@ -185,24 +179,23 @@ valid_no_null_in_region = function(dt, col, ...) {
 #' @return Logical
 #' @import data.table
 #' @export
-valid_sample_home_bg = function(dt, col, ...) {
+valid_sample_home_bg <- function(dt, col, ...) {
+  # Regex for other bg columns like home_bg_2010 and home_bg_2020
+  bg_cols <- grep("home_bg_\\d{4}", names(dt), value = TRUE)
 
-    # Regex for other bg columns like home_bg_2010 and home_bg_2020
-    bg_cols = grep("home_bg_\\d{4}", names(dt), value = TRUE)
+  # Ensure that if there are any NULLs in sample_home_bg,
+  # there are no NULLs in the other bg columns
+  check <- dt[
+    get("home_in_region") == 1,
+    is.na(get("sample_home_bg")) & rowSums(is.na(.SD)) > 0,
+    .SDcols = bg_cols
+  ]
 
-    # Ensure that if there are any NULLs in sample_home_bg,
-    # there are no NULLs in the other bg columns
-    check = dt[
-        get("home_in_region") == 1,
-        is.na(get("sample_home_bg")) & rowSums(is.na(.SD)) > 0,
-        .SDcols = bg_cols
-    ]
+  if (any(check)) {
+    return(FALSE)
+  }
 
-    if (any(check)) {
-        return(FALSE)
-    }
-
-    return(TRUE)
+  return(TRUE)
 }
 
 #' Validate diary_platform
@@ -214,12 +207,11 @@ valid_sample_home_bg = function(dt, col, ...) {
 #' @return Logical
 #' @import data.table
 #' @export
-valid_diary_platform = function(dt, col, ...) {
-
+valid_diary_platform <- function(dt, col, ...) {
   # Ensure that diary_platform is one of
   # 'rmove', 'browser', and 'call'
   # there are no NULLs in the other bg columns
-  check = dt[
+  check <- dt[
     !get("diary_platform") %in% c("rmove", "browser", "call") |
       is.null(get("diary_platform")) |
       is.na(get("diary_platform")) |
@@ -241,21 +233,20 @@ valid_diary_platform = function(dt, col, ...) {
 #' @export
 #' @examples
 #' {
-#' x = c(1, 2, 3, 4, 5)
-#' valid_gt_0(x)
+#'   x <- c(1, 2, 3, 4, 5)
+#'   valid_gt_0(x)
 #' }
-valid_gt_0 = function(x) {
+valid_gt_0 <- function(x) {
+  checks <- c(
+    is.numeric(x),
+    !any(is.na(x)),
+    !any(trimws(x) == ""),
+    all(x > 0)
+  )
 
-    checks = c(
-        is.numeric(x),
-        !any(is.na(x)),
-        !any(trimws(x) == ""),
-        all(x > 0)
-    )
+  if (!all(checks)) {
+    return(FALSE)
+  }
 
-    if (!all(checks)) {
-        return(FALSE)
-    }
-
-    return(TRUE)
+  return(TRUE)
 }
