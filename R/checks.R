@@ -202,7 +202,36 @@ valid_sample_home_bg = function(dt, col, ...) {
         return(FALSE)
     }
 
-    return(TRUE)        
+    return(TRUE)
+}
+
+#' Validate diary_platform
+#' @title valid_diary_platform
+#' @description Validate that hh diary_platform is one of 'rmove', 'bmove', or 'call'
+#' @param dt data.table
+#' @param col Target column name
+#' @param ... Additional keyword arguments, i.e., locals list with data.tables
+#' @return Logical
+#' @import data.table
+#' @export
+valid_diary_platform = function(dt, col, ...) {
+
+  # Ensure that diary_platform is one of
+  # 'rmove', 'browser', and 'call'
+  # there are no NULLs in the other bg columns
+  check = dt[
+    !get("diary_platform") %in% c("rmove", "browser", "call") |
+      is.null(get("diary_platform")) |
+      is.na(get("diary_platform")) |
+      is.nan(get("diary_platform")),
+    .N
+  ]
+
+  if (check > 0) {
+    return(FALSE)
+  }
+
+  return(TRUE)
 }
 
 
