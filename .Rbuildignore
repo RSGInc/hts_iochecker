@@ -4,3 +4,5 @@
 ^.vscode$
 ^.github$
 ^test_cache$
+^.*\.Rproj$
+^\.Rproj\.user$
