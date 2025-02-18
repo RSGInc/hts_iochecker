@@ -5,6 +5,7 @@
 #' @param func_str character, the name of the test function
 #' @param message character, the message to report
 #' @param max_len integer, the maximum length of the printed output
+#' @return NULL
 #' @export
 report_passfail = function(var, func_str, message, max_len = 25) {
     msg = paste(
@@ -14,6 +15,8 @@ report_passfail = function(var, func_str, message, max_len = 25) {
         sep = " | "
     )
     message(msg)
+
+    return(NULL)
 }
 
 
@@ -45,7 +48,8 @@ validate_table = function(dt, schema, report = TRUE, ...) {
         c(
             nchar(names(custom_tests)),
             nchar(sapply(custom_tests, function(x) {
-                ifelse(is.function(x[['tests']]), "user defined function", x[['tests']])
+                res = ifelse(is.function(x[['tests']]), "user defined function", x[['tests']])
+                return(res)
             }))
         )
     )
@@ -122,5 +126,7 @@ validate_table = function(dt, schema, report = TRUE, ...) {
 
     # Check all outcomes
     stopifnot(all(unlist(valid_fields) == TRUE))
+
+    return(valid_dt[])
 
 }

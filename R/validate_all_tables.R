@@ -75,4 +75,5 @@ validate_all_tables = function(
         message("---- All tables passed validation! ----")
     }
 
+    return(TRUE)
 }
