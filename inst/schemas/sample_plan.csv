@@ -1,9 +1,9 @@
-column_name,data_type,required,coerce,tests,description
-bg_geoid,character,TRUE,TRUE,rows_distinct,
-segment_num,character,TRUE,TRUE,col_vals_not_null,
-segment_name,character,TRUE,TRUE,col_vals_not_null,
-ref_count_hh,numeric,TRUE,TRUE,"col_vals_not_null & col_vals_gt(value=0)",
-ref_count_per,numeric,TRUE,TRUE,"col_vals_not_null & col_vals_gt(value=0)",
-PUMA,character,TRUE,TRUE,col_vals_not_null,
-client_zone_id,character,FALSE,TRUE,col_vals_not_null,
-client_zone,character,FALSE,TRUE,col_vals_not_null,
+column_name,data_type,required,tests,description
+bg_geoid,character,TRUE,rows_distinct,
+segment_num,character,TRUE,col_vals_not_null,
+segment_name,character,TRUE,col_vals_not_null,
+ref_count_hh,numeric,TRUE,"col_vals_not_null & col_vals_gt(value=0)",
+ref_count_per,numeric,TRUE,"col_vals_not_null & col_vals_gt(value=0)",
+PUMA,character,TRUE,col_vals_not_null,
+client_zone_id,character,FALSE,col_vals_not_null,
+client_zone,character,FALSE,col_vals_not_null,

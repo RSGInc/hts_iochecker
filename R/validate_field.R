@@ -11,12 +11,8 @@ validate_field = function(dt, col, field_schema, ...) {
 
     # Get the schema values
     required = as.logical(field_schema[['required']])
-    coerce = as.logical(field_schema[['coerce']])
     data_type = field_schema[['data_type']]
     tests = field_schema[['tests']]
-
-    # Coerce or check the data type
-    dt = coerce_field(dt, col, data_type, coerce)
 
     # If tests is a function itself, pass as a list
     if (!is.list(tests)) {
@@ -47,25 +43,6 @@ validate_field = function(dt, col, field_schema, ...) {
     }
 
     return(test_results)
-}
-
-#' Coerce field
-#' @title coerce_field
-#' @description Coerce a field to a specific data type
-#' @param dt data.table, the data.table to validate
-#' @param col character, the column to validate
-#' @param data_type character, the data type to coerce to
-#' @return data.table
-#' @export
-coerce_field = function(dt, col, data_type, coerce) {
-    for (c in col) {
-        if (coerce) {
-            dt[[c]] = as(dt[[c]], data_type)
-        } else {
-            stopifnot(class(dt[[c]]) == data_type)
-        }
-    }
-    return(dt)
 }
 
 

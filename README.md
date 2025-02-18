@@ -42,7 +42,6 @@ simple_schema = list(
                 return(all(x > 0))
             },
             data_type = "integer",
-            coerce = TRUE,
             required = TRUE,
             description = "Field A is an integer greater than 0"
         ),
@@ -54,7 +53,6 @@ simple_schema = list(
                 "valid_no_null" # Custom function from checks.R in this package.
             ),
             data_type = "character",
-            coerce = TRUE,
             required = TRUE,
             description = "Field B is a character in A, B, C"
         )
@@ -88,25 +86,24 @@ Schemas can be defined as a CSV table with the following fields:
 - column_name: The field name
 - data_type: The R data type, e.g., integer, numeric, character
 - required: TRUE/FALSE if the field is required, if FALSE it will validate if present
-- coerce: TRUE/FALSE coerce the data type if not in the defined data_type, if FALSE it will fail if not matching
 - tests: A function or list of functions
 - description [optional]: To provide some contextual information
 
-|column_name       |data_type|required|coerce|tests                     |description|
-|------------------|---------|--------|------|--------------------------|-----------|
-|hh_id             |character|TRUE    |TRUE  |col_vals_not_null         |           |
-|person_id         |character|TRUE    |TRUE  |col_vals_not_null         |           |
-|trip_id           |character|TRUE    |TRUE  |rows_distinct             |           |
-|trip_weight       |numeric  |FALSE   |FALSE |col_vals_not_null         |           |
-|linked_trip_id    |character|TRUE    |TRUE  |col_vals_not_null         |           |
-|day_id            |character|TRUE    |TRUE  |col_vals_not_null         |           |
-|travel_dow        |integer  |TRUE    |TRUE  |"col_vals_in_set(set=1:7)"|           |
-|distance_meters   |numeric  |FALSE   |TRUE  |col_vals_not_null         |           |
-|mode_type         |integer  |TRUE    |TRUE  |col_vals_not_null         |           |
-|o_purpose_category|integer  |TRUE    |TRUE  |col_vals_not_null         |           |
-|d_purpose_category|integer  |TRUE    |TRUE  |col_vals_not_null         |           |
-|o_purpose         |integer  |TRUE    |TRUE  |col_vals_not_null         |           |
-|d_purpose         |integer  |TRUE    |TRUE  |col_vals_not_null         |           |
+|column_name       |data_type|required|tests                     |description|
+|------------------|---------|--------|--------------------------|-----------|
+|hh_id             |character|TRUE    |col_vals_not_null         |           |
+|person_id         |character|TRUE    |col_vals_not_null         |           |
+|trip_id           |character|TRUE    |rows_distinct             |           |
+|trip_weight       |numeric  |FALSE   |col_vals_not_null         |           |
+|linked_trip_id    |character|TRUE    |col_vals_not_null         |           |
+|day_id            |character|TRUE    |col_vals_not_null         |           |
+|travel_dow        |integer  |TRUE    |"col_vals_in_set(set=1:7)"|           |
+|distance_meters   |numeric  |FALSE   |col_vals_not_null         |           |
+|mode_type         |integer  |TRUE    |col_vals_not_null         |           |
+|o_purpose_category|integer  |TRUE    |col_vals_not_null         |           |
+|d_purpose_category|integer  |TRUE    |col_vals_not_null         |           |
+|o_purpose         |integer  |TRUE    |col_vals_not_null         |           |
+|d_purpose         |integer  |TRUE    |col_vals_not_null         |           |
 
 A CSV schema can then be loaded as an R list schema using 
 ```

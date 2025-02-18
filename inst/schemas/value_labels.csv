@@ -1,4 +1,4 @@
-column_name,data_type,required,coerce,tests,description
-label,character,TRUE,TRUE,col_vals_not_null,
-value,integer,TRUE,TRUE,col_vals_not_null,
-variable,character,TRUE,TRUE,col_vals_not_null,
+column_name,data_type,required,tests,description
+label,character,TRUE,col_vals_not_null,
+value,integer,TRUE,col_vals_not_null,
+variable,character,TRUE,col_vals_not_null,

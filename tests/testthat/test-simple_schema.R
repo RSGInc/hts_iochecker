@@ -16,7 +16,6 @@ simple_schema = list(
                 return(all(x > 0))
             },
             data_type = "integer",
-            coerce = TRUE,
             required = TRUE,
             description = "Field A is an integer greater than 0"
         ),
@@ -28,7 +27,6 @@ simple_schema = list(
                 "col_vals_not_null" # Custom function from checks.R in this package.
             ),
             data_type = "character",
-            coerce = TRUE,
             required = TRUE,
             description = "Field B is a character in A, B, C"
         )
