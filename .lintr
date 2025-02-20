@@ -11,6 +11,7 @@ linters: linters_with_defaults(
     return_linter("explicit")
     )
 exclusions: list(
-    "inst/archive",
-    "test_cache"
+    "inst/*",
+    "test_cache",
+    "renv"
     )

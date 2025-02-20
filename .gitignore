@@ -2,6 +2,7 @@
 .vscode/
 *.Rproj
 .Rproj.user/
+.Rprofile
 
 # History files
 .Rhistory
