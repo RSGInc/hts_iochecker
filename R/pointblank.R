@@ -51,9 +51,7 @@ collate_tests = function(schema) { # nolint: cyclocomp_linter.
 
         # If no tests left, function is simple true
         if (length(custom_tests[[var]]$tests) == 0) {
-            custom_tests[[var]]$tests = function(x) {
-                return(TRUE)
-            }
+            custom_tests[[var]] = NULL
         }
     }
 
