@@ -1,5 +1,3 @@
-# This is a library of data check functions that can be used to validate data.
-
 #' Validate home geo columns
 #' @param dt data.table
 #' @param col Target column name
