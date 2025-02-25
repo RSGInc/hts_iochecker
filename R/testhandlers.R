@@ -3,7 +3,7 @@
 #' @param schema list, a list of schema values for the table
 #' @return list
 #' @export
-collate_tests = function(schema) { # nolint: cyclocomp_linter.
+collate_tests = function(schema) {
 
     # Collate pointblank tests into a list of tests and their columns
     pb_tests = list()
