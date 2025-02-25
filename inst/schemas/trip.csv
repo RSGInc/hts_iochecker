@@ -2,7 +2,7 @@ column_name,data_type,required,tests,description
 hh_id,character,TRUE,col_vals_not_null,
 person_id,character,TRUE,col_vals_not_null,
 trip_id,character,TRUE,rows_distinct,
-trip_weight,numeric,FALSE,col_vals_not_null,
+trip_weight,numeric,FALSE,col_vals_gte(value=0),
 linked_trip_id,character,FALSE,col_vals_not_null,
 day_id,character,TRUE,col_vals_not_null,
 travel_dow,integer,TRUE,"col_vals_in_set(set=1:7)",

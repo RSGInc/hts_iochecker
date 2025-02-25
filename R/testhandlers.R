@@ -76,7 +76,7 @@ parse_test_args = function(test_str) {
 
         # If args list missing names, stop
         if (is.null(names(args_list))) {
-            stop("Arguments must be named in the schema.")
+            stop("Missing argument names. Function arguments must be named in the schema.")
         }
 
     } else {
@@ -120,7 +120,6 @@ parse_regex_cols = function(columns, dt_cols) {
 #' @export
 run_pbtests = function(valid_dt, pb_tests) {
     if (length(pb_tests) > 0) {
-        message("==== Running pointblank tests ====")
         # Initialize the agent
         # al = pointblank::action_levels(warn_at = 1)
         agent = pointblank::create_agent(valid_dt)
@@ -147,9 +146,102 @@ run_pbtests = function(valid_dt, pb_tests) {
 
         # Run the tests
         agent = pointblank::interrogate(agent, progress = FALSE)
-        message("==== Pointblank tests complete ====")
         return(agent)
     } else {
         return(NULL)
     }
+}
+
+#' Run custom tests
+#' @title run_custom_tests
+#' @description Run custom tests
+#' @param valid_dt data.table, the data.table to validate
+#' @param custom_tests list, a list of custom tests
+#' @param ... additional keyword arguments, i.e., locals list with data.tables
+#' @return NULL
+#' @export
+run_custom_tests = function(valid_dt, custom_tests, ...) {
+    # Get the maximum length of the variable names
+    if (length(names(custom_tests)) == 0) {
+        return(NULL)
+    }
+
+    # Run custom tests
+    message("==== Running custom tests ====")
+    
+    max_len = max(
+        c(
+            nchar(names(custom_tests)),
+            nchar(sapply(custom_tests, function(x) {
+                res = ifelse(is.function(x[['tests']]), "user defined function", x[['tests']])
+                return(res)
+            }))
+        )
+    )
+
+    # Loop through each variable in the schema
+    valid_fields = list()
+    keep_cols = c()
+    for (var in names(custom_tests)) {
+        # Check if the variable exists in the data.table
+        col = grep(
+            paste0("^", var, "$"),
+            names(valid_dt),
+            value = TRUE
+        )
+
+        # Get the schema values
+        field_schema = custom_tests[[var]]
+        required = as.logical(field_schema[['required']])
+        
+        if (!is.list(field_schema[['tests']])) {
+            field_schema[['tests']] = list(field_schema[['tests']])
+        }
+
+        # Collapse tests into string label
+        tests_str = paste(
+            lapply(field_schema[['tests']], function(test) {
+                if (is.function(test)) {
+                    test = "user defined function"
+                }
+                return(test)
+            }),
+            collapse = ", "
+        )
+
+        if (length(col) == 0) {
+            valid_fields[[var]] = FALSE | !required
+            msg = if (required) {
+                "Required field not found in table!"
+            } else {
+                "passed. Optional field not found in table."
+            }
+            report_passfail(var, tests_str, msg, max_len)
+            next
+        }
+        keep_cols = c(keep_cols, col)
+
+        # Run the test function and catch any errors
+        valid_fields[[var]] = tryCatch(
+            {
+                test_results = validate_field(valid_dt, col, field_schema, ...)
+                msg = if (test_results) "passed." else ">>> failed validation function."
+                report_passfail(var, tests_str, msg, max_len)
+                test_results
+            },
+            warning = function(w) {
+                report_passfail(var, tests_str, paste(">>>", w$message), max_len)
+                return(FALSE)
+            },
+            error = function(e) {
+                report_passfail(var, tests_str, paste(">>>", e$message), max_len)
+                return(FALSE)
+            }
+        )
+    }
+
+    # Check all outcomes
+    stopifnot(all(unlist(valid_fields) == TRUE))
+
+    return(NULL)
 }

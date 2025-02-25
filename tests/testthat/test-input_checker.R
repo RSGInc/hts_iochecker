@@ -112,14 +112,15 @@ for (table_name in names(tables_list)) {
         validate_table(
             dt = tables_list[[table_name]],
             schema = schemas_list[[table_name]],
-            report = FALSE
         )
     )
 }
 
 # Validate all tables ========================================================
-testthat::expect_no_error(validate_all_tables(tables_list, schemas_list))
-
-# TODO: Need to add tests for expected fails
-
-# TODO: Need to add tests for individual functions
+testthat::expect_no_error(
+    validate_all_tables(
+        tables_list,
+        schemas_list,
+        report_dir = file.path(getwd(), "test_cache")
+    )
+)
