@@ -35,6 +35,7 @@ load_schema = function(path) {
 #' Load RSG HTS Schema
 #' @title load_rsg_schema
 #' @description Load the RSG schema from this package.
+#' @param schema_set name of the schema set to load. Default is 'default'.
 #' @return list
 #' @export
 #' @import data.table

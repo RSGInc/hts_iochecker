@@ -6,6 +6,9 @@
 \usage{
 load_rsg_schema(schema_set = "default")
 }
+\arguments{
+\item{schema_set}{name of the schema set to load. Default is 'default'.}
+}
 \value{
 list
 }
