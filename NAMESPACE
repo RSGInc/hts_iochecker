@@ -2,11 +2,12 @@
 
 export(collate_tests)
 export(eval_func)
-export(load_rsg_default_schema)
+export(load_rsg_schema)
 export(load_schema)
 export(parse_regex_cols)
 export(parse_test_args)
 export(report_passfail)
+export(run_custom_tests)
 export(run_pbtests)
 export(valid_no_null_in_region)
 export(valid_sample_home_bg)

@@ -96,7 +96,7 @@ tables_list = fetch_tables(table_names, dbname, dbschema)
 
 
 # Load table schema ----------------------------------------------------------
-schemas_list = load_rsg_default_schema()
+schemas_list = load_rsg_schema(schema_set = "default")
 
 
 # Table relation checks ======================================================
