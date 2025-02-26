@@ -11,7 +11,7 @@
 validate_all_tables = function(
     tables_list,
     schemas_list,
-    trim = FALSE
+    report_dir = NULL
     ) {
 
     # Assert that table list is named
@@ -29,16 +29,27 @@ validate_all_tables = function(
         stop("All tables must have a schema.")
     }
 
+    # Create report directory if it doesn't exist
+    if (!is.null(report_dir)) {
+        if (!dir.exists(report_dir)) {
+            dir.create(report_dir, recursive = TRUE)
+        }
+    }
+
     # Validate each table
     valid_tables = list()
     for (table_name in names(tables_list)) {
 
-        message("---- Validating table: ", table_name, " ----")
-
         if (all(c('sf', 'data.frame') %in% class(tables_list[[table_name]]))) {
             valid_tables[[table_name]] = tables_list[[table_name]]
-            message(">>> Table is an SF object, skipping: ", table_name)
+            message("\u1F7E0 Table is an SF object, skipping: ", table_name)
             next
+        }
+
+        report_path = if (!is.null(report_dir)) {
+            file.path(report_dir, paste0("failure_report_", table_name, ".html"))
+        } else {
+            NULL
         }
 
         valid_tables[[table_name]] = tryCatch(
@@ -46,20 +57,20 @@ validate_all_tables = function(
                 valid_dt = validate_table(
                     dt = tables_list[[table_name]],
                     schema = schemas_list[[table_name]],
-                    trim = trim,
+                    report_path = report_path,
                     # Pass locals to the test functions
                     tables_list = tables_list,
                     schemas_list = schemas_list
                 )
-                message(">>> Validation passed for table: ", table_name)
+                message("\u2705 Validation passed for table: ", table_name)
                 valid_dt
             },
             warning = function(w) {
-                message(">>> Warning for table: ", table_name, " ", w$message)
+                message("\u1F7E0 Warning for table: ", table_name, " ", w$message)
                 return(FALSE)
             },
             error = function(e) {
-                message(">>> Validation failed for table: ", table_name, " ", e$message)
+                message("\u274C Validation failed for table: ", table_name, " ", e$message)
                 return(FALSE)
             }
         )
@@ -72,11 +83,8 @@ validate_all_tables = function(
     if (!all(all_pass)) {
         stop("Validation failed on tables: ", fails)
     } else {
-        message("---- All tables passed validation! ----")
-    }
-    
-    if (trim) {
-        return(valid_tables)
+        message("\u2705 All tables passed validation!")
     }
 
+    return(TRUE)
 }

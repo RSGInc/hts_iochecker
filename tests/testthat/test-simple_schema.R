@@ -16,7 +16,6 @@ simple_schema = list(
                 return(all(x > 0))
             },
             data_type = "integer",
-            coerce = TRUE,
             required = TRUE,
             description = "Field A is an integer greater than 0"
         ),
@@ -25,10 +24,9 @@ simple_schema = list(
                 function(x) {
                     return(all(x %in% c("A", "B", "C")))
                 },
-                "valid_no_null" # Custom function from checks.R in this package.
+                "col_vals_not_null" # Custom function from checks.R in this package.
             ),
             data_type = "character",
-            coerce = TRUE,
             required = TRUE,
             description = "Field B is a character in A, B, C"
         )
@@ -36,6 +34,6 @@ simple_schema = list(
 
 
 test_that("validate_table() works", {
-    expect_error(validate_table(simple_table_fail, simple_schema))
-    expect_no_error(validate_table(simple_table_pass, simple_schema))
+    expect_error(validate_table(simple_table_fail, simple_schema, report = FALSE))
+    expect_no_error(validate_table(simple_table_pass, simple_schema, report = FALSE))
 })

@@ -1,3 +1,5 @@
+# testthat::test_dir("tests/testthat", filter = "input_checker")
+
 skip_if(
     Sys.getenv('pops.user') == "",
     "No database credentials found. Skipping tests."
@@ -82,7 +84,8 @@ table_names = c(
     'linked_trip' = 'ex_linked_trip',
     'tour' = 'ex_tour',
     'variable_list' = 'ex_variable_list',
-    'value_labels' = 'ex_value_labels'
+    'value_labels' = 'ex_value_labels',
+    'sample_plan' = 'sample_plan'
 )
 dbschema = 'combined_2023'
 dbname = 'sw_wash_hts'
@@ -93,11 +96,14 @@ tables_list = fetch_tables(table_names, dbname, dbschema)
 
 
 # Load table schema ----------------------------------------------------------
-schemas_list = load_rsg_default_schema()
+schemas_list = load_rsg_schema(schema_set = "default")
 
 
 # Table relation checks ======================================================
-testthat::expect_no_error(validate_table_relation(tables_list))
+allowed_childless = c('day', 'trip', 'linked_trip', 'tour')
+testthat::expect_no_error(
+    validate_table_relation(tables_list, allowed_childless = allowed_childless)
+)
 
 # Check invidual tables ======================================================
 for (table_name in names(tables_list)) {
@@ -106,14 +112,15 @@ for (table_name in names(tables_list)) {
         validate_table(
             dt = tables_list[[table_name]],
             schema = schemas_list[[table_name]],
-            trim = TRUE
         )
     )
 }
 
 # Validate all tables ========================================================
-testthat::expect_no_error(validate_all_tables(tables_list, schemas_list))
-
-# TODO: Need to add tests for expected fails
-
-# TODO: Need to add tests for individual functions
+testthat::expect_no_error(
+    validate_all_tables(
+        tables_list,
+        schemas_list,
+        report_dir = file.path(getwd(), "test_cache")
+    )
+)

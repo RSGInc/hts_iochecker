@@ -7,9 +7,11 @@ linters: linters_with_defaults(
     quotes_linter = NULL,
     commented_code_linter = NULL,
     object_usage_linter = NULL,
-    trailing_whitespace_linter = NULL
+    trailing_whitespace_linter = NULL,
+    return_linter("explicit")
     )
 exclusions: list(
-    "inst/archive",
-    "test_cache"
+    "inst/*",
+    "test_cache",
+    "renv"
     )

@@ -1,0 +1,4 @@
+column_name,data_type,required,tests,description
+label,character,TRUE,col_vals_not_null,
+value,integer,TRUE,col_vals_not_null,
+variable,character,TRUE,col_vals_not_null,

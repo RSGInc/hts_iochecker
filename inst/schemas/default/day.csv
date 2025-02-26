@@ -1,0 +1,10 @@
+column_name,data_type,required,tests,description
+day_id,character,TRUE,rows_distinct,
+hh_id,character,TRUE,col_vals_not_null,
+person_id,character,TRUE,col_vals_not_null,
+travel_dow,integer,TRUE,"col_vals_in_set(set=1:7)",
+hh_day_complete,integer,TRUE,"col_vals_in_set(set=0:1)",
+num_trips,integer,TRUE,col_vals_not_null,
+is_complete,integer,TRUE,"col_vals_in_set(set=0:1)",
+hh_is_complete,integer,FALSE,"col_vals_in_set(set=0:1)",
+day_weight,numeric,FALSE,col_vals_gte(value=0),

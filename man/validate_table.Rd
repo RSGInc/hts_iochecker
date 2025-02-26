@@ -4,19 +4,16 @@
 \alias{validate_table}
 \title{validate_table}
 \usage{
-validate_table(dt, schema, trim = FALSE, ...)
+validate_table(dt, schema, report_path = NULL, ...)
 }
 \arguments{
 \item{dt}{data.table, the data.table to validate}
 
 \item{schema}{list, a list of schema values for the table}
 
-\item{trim}{logical, whether to trim the columns to only those in the schema}
+\item{report_path}{File path to save the pointblank report}
 
 \item{...}{additional locals arguments to pass to the test functions, e.g. tables_list}
-}
-\value{
-data.table
 }
 \description{
 Validate a data.table against a schema

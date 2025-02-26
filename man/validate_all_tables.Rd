@@ -4,7 +4,7 @@
 \alias{validate_all_tables}
 \title{validate_all_tables}
 \usage{
-validate_all_tables(tables_list, schemas_list, trim = FALSE)
+validate_all_tables(tables_list, schemas_list, report_dir = NULL)
 }
 \arguments{
 \item{tables_list}{list, a named list of data tables to validate.}
