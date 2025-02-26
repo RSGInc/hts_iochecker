@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">hts.iochecker</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
       </span>
     </div>
 
@@ -99,7 +99,6 @@
 <span>                <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span>            <span class="op">}</span>,</span>
 <span>            data_type <span class="op">=</span> <span class="st">"integer"</span>,</span>
-<span>            coerce <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>            required <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>            description <span class="op">=</span> <span class="st">"Field A is an integer greater than 0"</span></span>
 <span>        <span class="op">)</span>,</span>
@@ -111,7 +110,6 @@
 <span>                <span class="st">"valid_no_null"</span> <span class="co"># Custom function from checks.R in this package.</span></span>
 <span>            <span class="op">)</span>,</span>
 <span>            data_type <span class="op">=</span> <span class="st">"character"</span>,</span>
-<span>            coerce <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>            required <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>            description <span class="op">=</span> <span class="st">"Field B is a character in A, B, C"</span></span>
 <span>        <span class="op">)</span></span>
@@ -139,21 +137,19 @@
 <div class="section level1">
 <h1 id="csv-schema-tables">CSV Schema tables<a class="anchor" aria-label="anchor" href="#csv-schema-tables"></a>
 </h1>
-<p>Schemas can be defined as a CSV table with the following fields: - column_name: The field name - data_type: The R data type, e.g., integer, numeric, character - required: TRUE/FALSE if the field is required, if FALSE it will validate if present - coerce: TRUE/FALSE coerce the data type if not in the defined data_type, if FALSE it will fail if not matching - tests: A function or list of functions - description [optional]: To provide some contextual information</p>
+<p>Schemas can be defined as a CSV table with the following fields: - column_name: The field name - data_type: The R data type, e.g., integer, numeric, character - required: TRUE/FALSE if the field is required, if FALSE it will validate if present - tests: A function or list of functions - description [optional]: To provide some contextual information</p>
 <table class="table">
 <colgroup>
-<col width="26%">
-<col width="13%">
+<col width="25%">
+<col width="12%">
 <col width="11%">
-<col width="8%">
-<col width="24%">
+<col width="36%">
 <col width="15%">
 </colgroup>
 <thead><tr class="header">
 <th>column_name</th>
 <th>data_type</th>
 <th>required</th>
-<th>coerce</th>
 <th>tests</th>
 <th>description</th>
 </tr></thead>
@@ -162,104 +158,91 @@
 <td>hh_id</td>
 <td>character</td>
 <td>TRUE</td>
-<td>TRUE</td>
-<td>valid_no_null</td>
+<td>col_vals_not_null</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>person_id</td>
 <td>character</td>
 <td>TRUE</td>
-<td>TRUE</td>
-<td>valid_no_null</td>
+<td>col_vals_not_null</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>trip_id</td>
 <td>character</td>
 <td>TRUE</td>
-<td>TRUE</td>
-<td>valid_primary_key</td>
+<td>rows_distinct</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>trip_weight</td>
 <td>numeric</td>
 <td>FALSE</td>
-<td>FALSE</td>
-<td>valid_no_null</td>
+<td>col_vals_not_null</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>linked_trip_id</td>
 <td>character</td>
 <td>TRUE</td>
-<td>TRUE</td>
-<td>valid_no_null</td>
+<td>col_vals_not_null</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>day_id</td>
 <td>character</td>
 <td>TRUE</td>
-<td>TRUE</td>
-<td>valid_no_null</td>
+<td>col_vals_not_null</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>travel_dow</td>
 <td>integer</td>
 <td>TRUE</td>
-<td>TRUE</td>
-<td>valid_dow</td>
+<td>“col_vals_in_set(set=1:7)”</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>distance_meters</td>
 <td>numeric</td>
 <td>FALSE</td>
-<td>TRUE</td>
-<td>valid_no_null</td>
+<td>col_vals_not_null</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>mode_type</td>
 <td>integer</td>
 <td>TRUE</td>
-<td>TRUE</td>
-<td>valid_no_null</td>
+<td>col_vals_not_null</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>o_purpose_category</td>
 <td>integer</td>
 <td>TRUE</td>
-<td>TRUE</td>
-<td>valid_no_null</td>
+<td>col_vals_not_null</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>d_purpose_category</td>
 <td>integer</td>
 <td>TRUE</td>
-<td>TRUE</td>
-<td>valid_no_null</td>
+<td>col_vals_not_null</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>o_purpose</td>
 <td>integer</td>
 <td>TRUE</td>
-<td>TRUE</td>
-<td>valid_no_null</td>
+<td>col_vals_not_null</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>d_purpose</td>
 <td>integer</td>
 <td>TRUE</td>
-<td>TRUE</td>
-<td>valid_no_null</td>
+<td>col_vals_not_null</td>
 <td></td>
 </tr>
 </tbody>
@@ -267,10 +250,10 @@
 <p>A CSV schema can then be loaded as an R list schema using</p>
 <pre><code><span><span class="va">schema</span> <span class="op">=</span> <span class="fu"><a href="reference/load_schema.html">load_schema</a></span><span class="op">(</span><span class="st">"path/to/schema.csv"</span><span class="op">)</span></span></code></pre>
 <p>This package contains several default RSG HTS schemas in: <a href="https://github.com/RSGInc/hts_iochecker/blob/main/inst/schemas" class="external-link uri">https://github.com/RSGInc/hts_iochecker/blob/main/inst/schemas</a> which can be loaded using</p>
-<pre><code><span><span class="va">schemas_list</span> <span class="op">=</span> <span class="fu">hts.iochecker</span><span class="fu">::</span><span class="fu"><a href="reference/load_rsg_default_schema.html">load_rsg_default_schema</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<pre><code><span><span class="va">schemas_list</span> <span class="op">=</span> <span class="fu">hts.iochecker</span><span class="fu">::</span><span class="fu">load_rsg_default_schema</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 <p>Here is an example from HTS Weighting</p>
 <pre><code><span><span class="co"># Load schema</span></span>
-<span><span class="va">schemas_list</span> <span class="op">=</span> <span class="fu">hts.iochecker</span><span class="fu">::</span><span class="fu"><a href="reference/load_rsg_default_schema.html">load_rsg_default_schema</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">schemas_list</span> <span class="op">=</span> <span class="fu">hts.iochecker</span><span class="fu">::</span><span class="fu">load_rsg_default_schema</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Load tables to be validated</span></span>
 <span><span class="va">table_names</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">schemas_list</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="st">"hts_table_map"</span>, <span class="va">settings</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>

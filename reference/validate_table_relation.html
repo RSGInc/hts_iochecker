@@ -18,7 +18,7 @@ presence of key columns in other tables"><!-- mathjax --><script src="https://cd
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hts.iochecker</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
       </span>
     </div>
 
@@ -46,11 +46,7 @@ presence of key columns in other tables</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">validate_table_relation</span><span class="op">(</span></span>
-<span>  <span class="va">tables_list</span>,</span>
-<span>  id_key <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  allow_childless <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"day"</span>, <span class="st">"trip"</span>, <span class="st">"linked_trip"</span>, <span class="st">"tour"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">validate_table_relation</span><span class="op">(</span><span class="va">tables_list</span>, id_key <span class="op">=</span> <span class="cn">NULL</span>, allowed_childless <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -66,10 +62,11 @@ presence of key columns in other tables</p>
 respective table names</p></dd>
 
 
-<dt id="arg-allow-childless">allow_childless<a class="anchor" aria-label="anchor" href="#arg-allow-childless"></a></dt>
+<dt id="arg-allowed-childless">allowed_childless<a class="anchor" aria-label="anchor" href="#arg-allowed-childless"></a></dt>
 <dd><p>A character vector of tables that are allowed to
 have no child records.
-E.g., c('days', 'trips') we allow persons with no days and households with no trips.</p></dd>
+A common entry might be c('day', 'trip', 'linked_trip', 'tour')
+E.g., c('days', 'trips') we allow persons with no days and no trips.</p></dd>
 
 </dl></div>
     <div id="value">
