@@ -81,14 +81,14 @@ table_names = c(
     'person' = 'ex_person',
     'day' = 'ex_day',
     'trip' = 'ex_trip',
-    'linked_trip' = 'ex_linked_trip',
-    'tour' = 'ex_tour',
+    # 'linked_trip' = 'ex_linked_trip',
+    # 'tour' = 'ex_tour',
     'variable_list' = 'ex_variable_list',
     'value_labels' = 'ex_value_labels',
     'sample_plan' = 'sample_plan'
 )
-dbschema = 'combined_2023'
-dbname = 'sw_wash_hts'
+dbschema = 'hts_2024'
+dbname = 'nycdot_cms'
 
 
 # LOAD DATA ==================================================================

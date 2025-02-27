@@ -56,7 +56,7 @@ validate_table = function(dt, schema, report_path = NULL, ...) {
             var = failed_cols[i]
             func_str = failed_test[i]
             row = paste(
-                paste0(var, strrep(" ", max_testlen - nchar(var))),
+                paste0(var, strrep(" ", max_collen - nchar(var))),
                 paste0(func_str, strrep(" ", max_testlen - nchar(func_str))),
                 ">>> fail :(",
                 sep = " | "

@@ -1,6 +1,6 @@
 column_name,data_type,required,tests,description
 linked_trip_id,character,TRUE,rows_distinct,
-linked_trip_weight,numeric,FALSE,"col_is_numeric & col_vals_not_null",
+linked_trip_weight,numeric,FALSE,"col_vals_gte(value=0)",
 d_purpose_category,integer,TRUE,col_vals_not_null,
 d_purpose,integer,TRUE,col_vals_not_null,
 linked_trip_num,integer,TRUE,col_vals_not_null,
