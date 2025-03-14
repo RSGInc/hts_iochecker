@@ -1,3 +1,8 @@
+utils::globalVariables(
+    c("has_synthetic_access", "is_access",
+    "has_synthetic_egress", "is_egress")
+)
+
 #' Validate home geo columns
 #' @param dt data.table
 #' @param col Target column name
@@ -67,14 +72,14 @@ valid_distance_meters = function(dt, col, ...) {
     # Check if synthetic trips are in the data
     synth_cols = c("has_synthetic_access", "has_synthetic_egress")
     if (!all(synth_cols %in% names(dt))) {
-        check = dt[, !(!is.na(get(col)) | !is.null(get(col)) | get(col) > 0)]
+        check = dt[, !(!is.na(get(col)) | get(col) > 0)]
     } else {
         # Check that synthetic trip distance are NULL
         check = dt[,
             # Check that none fail
             !(
                 # Distance must be not null, except for synthetic trips
-                (!is.na(get(col)) | !is.null(get(col)) | get(col) > 0) |
+                (!is.na(get(col)) | get(col) > 0) |
                 # Synth trips must be null
                 (
                     (is.null(get(col)) | is.na(get(col))) &

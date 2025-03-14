@@ -3,9 +3,7 @@
 #' @description Validate all standard tables in the HTS data set.
 #' @param tables_list list, a named list of data tables to validate.
 #' @param schemas_list list, a named list of schemas to validate against.
-#' @param trim logical, whether to trim the columns to only those in the schema.
-#'   This functionality might be useful when loading and validating
-#'   the data on the fly.
+#' @param report_dir character, directory to save validation reports. If NULL,
 #' @return TRUE if all tables pass validation
 #' @export
 validate_all_tables = function(
