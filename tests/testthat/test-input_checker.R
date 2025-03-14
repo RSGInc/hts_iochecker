@@ -87,8 +87,8 @@ table_names = c(
     'value_labels' = 'ex_value_labels',
     'sample_plan' = 'sample_plan'
 )
-dbschema = 'hts_2024'
-dbname = 'nycdot_cms'
+dbschema = 'combined_2023'
+dbname = 'sw_wash_hts'
 
 
 # LOAD DATA ==================================================================
